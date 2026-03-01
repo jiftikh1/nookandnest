@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(cd /c/Interior && echo \"yes\" | npx create-next-app@latest . --typescript --tailwind --app --src-dir --eslint --no-git --import-alias \"@/*\" 2>&1)",
+      "Bash(node:*)",
+      "Bash(cd /c/interior && npx create-next-app@latest interior-studio --typescript --tailwind --app --src-dir --no-eslint --import-alias \"@/*\" --yes 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npm install prisma @prisma/client @supabase/supabase-js @supabase/ssr @anthropic-ai/sdk replicate clsx tailwind-merge react-dropzone sonner 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npm install react-image-comparison 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx shadcn@latest init --yes 2>&1)",
+      "Bash(cd /c/interior/interior-studio && echo \"\" | npx shadcn@latest init --yes --defaults 2>&1 || npx shadcn@latest init -d 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx shadcn@latest add button card input label badge dialog sheet tabs --yes 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx prisma init 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx tsc --noEmit 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx prisma generate 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npm install pg @prisma/adapter-pg 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx prisma migrate dev --name init 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npm install --save-dev dotenv 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script 2>&1)",
+      "Bash(sleep 5 && curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000 2>&1)",
+      "Bash(head:*)",
+      "Bash(sleep 8 && curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/login 2>&1)",
+      "Bash(curl:*)",
+      "Bash(rm -rf \"/c/interior/interior-studio/src/app/designer/projects/page.tsx\" && cat > \"/c/interior/interior-studio/src/app/designer/projects/page.tsx\" << 'ENDOFFILE'\nimport { prisma } from \"@/lib/prisma\";\nimport { createServerSupabaseClient } from \"@/lib/supabase-server\";\nimport { redirect } from \"next/navigation\";\nimport Link from \"next/link\";\n\nasync function getDesignerId\\(\\) {\n  const supabase = await createServerSupabaseClient\\(\\);\n  const { data: { user } } = await supabase.auth.getUser\\(\\);\n  if \\(!user\\) redirect\\(\"/login\"\\);\n  const dbUser = await prisma.user.findUnique\\({ where: { email: user.email! }, select: { id: true } }\\);\n  return dbUser?.id;\n}\n\nexport default async function ProjectsPage\\(\\) {\n  const designerId = await getDesignerId\\(\\);\n  if \\(!designerId\\) redirect\\(\"/login\"\\);\n\n  const projects = await prisma.project.findMany\\({\n    where: { designerId },\n    include: {\n      client: { select: { name: true, email: true } },\n      _count: { select: { rooms: true, products: true } },\n    },\n    orderBy: { updatedAt: \"desc\" },\n  }\\);\n\n  return \\(\n    <div className=\"max-w-7xl mx-auto px-6 py-12\">\n      <div className=\"flex items-center justify-between mb-10\">\n        <div>\n          <p className=\"text-xs tracking-[0.3em] uppercase mb-2\" style={{ color: \"#8B7355\" }}>Designer Portal</p>\n          <h1 className=\"text-4xl font-light\" style={{ fontFamily: \"var\\(--font-serif\\)\", color: \"#1A1A1A\" }}>All Projects</h1>\n        </div>\n        <Link href=\"/designer/projects/new\" className=\"text-xs tracking-widest uppercase px-5 py-2.5\"\n          style={{ backgroundColor: \"#8B7355\", color: \"#FFFFFF\" }}>\n          + New Project\n        </Link>\n      </div>\n\n      {projects.length === 0 ? \\(\n        <div className=\"text-center py-24 border rounded-sm\" style={{ borderColor: \"#E0DCD6\" }}>\n          <p className=\"text-xl font-light mb-2\" style={{ fontFamily: \"var\\(--font-serif\\)\", color: \"#4A4A4A\" }}>No projects yet</p>\n          <Link href=\"/designer/projects/new\" className=\"text-xs tracking-widest uppercase px-6 py-3 mt-4 inline-block\"\n            style={{ backgroundColor: \"#8B7355\", color: \"#FFFFFF\" }}>\n            Create Your First Project\n          </Link>\n        </div>\n      \\) : \\(\n        <div className=\"grid gap-3\">\n          {projects.map\\(\\(project\\) => \\(\n            <Link key={project.id} href={`/designer/projects/${project.id}`}\n              className=\"flex items-center justify-between p-6 border rounded-sm hover:border-[#8B7355] transition-colors\"\n              style={{ borderColor: \"#E0DCD6\", backgroundColor: \"#FFFFFF\" }}>\n              <div>\n                <h2 className=\"font-light text-xl mb-1\" style={{ fontFamily: \"var\\(--font-serif\\)\", color: \"#1A1A1A\" }}>\n                  {project.name}\n                </h2>\n                <p className=\"text-sm\" style={{ color: \"#7A7A7A\" }}>\n                  {project.client.name} · {project._count.rooms} rooms · {project._count.products} products\n                </p>\n              </div>\n              <div className=\"flex items-center gap-4\">\n                <span className=\"text-xs tracking-widest uppercase px-3 py-1\"\n                  style={{ backgroundColor: project.status === \"ACTIVE\" ? \"#F0EDE8\" : \"#E0DCD6\", color: \"#8B7355\" }}>\n                  {project.status}\n                </span>\n                <span className=\"text-xs\" style={{ color: \"#7A7A7A\" }}>\n                  {new Date\\(project.updatedAt\\).toLocaleDateString\\(\\)}\n                </span>\n              </div>\n            </Link>\n          \\)\\)}\n        </div>\n      \\)}\n    </div>\n  \\);\n}\nENDOFFILE)",
+      "Bash(npx tsc:*)",
+      "Bash(cd:*)",
+      "Bash(taskkill:*)",
+      "Bash(tail:*)",
+      "Bash(cd /c/interior/interior-studio && npx prisma migrate dev --name \"redesign_room_level_schema\" 2>&1)",
+      "Bash(grep:*)",
+      "Bash(cd /c/interior/interior-studio && npx prisma db push 2>&1)",
+      "Bash(cd /c/interior/interior-studio && npm run dev 2>&1)",
+      "WebFetch(domain:replicate.com)",
+      "Bash(ls:*)"
+    ]
+  }
+}

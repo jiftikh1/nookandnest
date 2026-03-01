@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CLIENT
+  DESIGNER
+  ADMIN
+}
+
+enum ProjectStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+  ACTIVE    // legacy — treated as DRAFT
+  COMPLETED // legacy — treated as PUBLISHED
+}
+
+enum RenderStatus {
+  PENDING
+  GENERATING
+  COMPLETED
+  FAILED
+  PUBLISHED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      Role     @default(CLIENT)
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clientProjects   Project[] @relation("ClientProjects")
+  designerProjects Project[] @relation("DesignerProjects")
+  comments         Comment[]
+}
+
+model Project {
+  id            String        @id @default(cuid())
+  name          String
+  description   String?
+  status        ProjectStatus @default(DRAFT)
+  coverImageUrl String?
+  clientMessage String?
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  clientId   String
+  client     User   @relation("ClientProjects", fields: [clientId], references: [id])
+  designerId String
+  designer   User   @relation("DesignerProjects", fields: [designerId], references: [id])
+
+  rooms    Room[]
+  updates  ProjectUpdate[]
+  comments Comment[]
+}
+
+model Room {
+  id               String   @id @default(cuid())
+  name             String
+  order            Int      @default(0)
+  originalPhotoUrl String?
+  photoUrls        String[] @default([])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  projectId  String
+  project    Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  renders    RoomRender[]
+  moodBoards MoodBoard[]
+  products   Product[]
+  comments   Comment[]
+}
+
+model MoodBoard {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  roomId String
+  room   Room            @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  items  MoodBoardItem[]
+}
+
+model MoodBoardItem {
+  id       String  @id @default(cuid())
+  imageUrl String
+  caption  String?
+  order    Int     @default(0)
+
+  moodBoardId String
+  moodBoard   MoodBoard @relation(fields: [moodBoardId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id         String   @id @default(cuid())
+  name       String
+  supplier   String?
+  price      Float?
+  currency   String   @default("USD")
+  productUrl String?
+  imageUrl   String?
+  category   String?
+  notes      String?
+  isVisible  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+model RoomRender {
+  id             String       @id @default(cuid())
+  status         RenderStatus @default(PENDING)
+
+  style          String?
+  designNotes    String?
+  sourcePhotoUrl String?
+  gptAnalysis    String?
+  claudePrompt   String?
+
+  // Legacy fields kept for compatibility
+  wallColor      String?
+  wallColorName  String?
+  curtainStyle   String?
+  furnitureStyle String?
+  referenceUrls  String[]
+  replicateJobId String?
+
+  generatedImageUrl String?
+  isPublished       Boolean   @default(false)
+  publishedAt       DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+model ProjectUpdate {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  roomId    String?
+  room      Room?   @relation(fields: [roomId], references: [id], onDelete: SetNull)
+}

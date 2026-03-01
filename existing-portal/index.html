@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── LOGIN ── -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-box">
+      <p class="studio-wordmark">Studio</p>
+      <h1 class="login-title">Client Portal</h1>
+      <p class="login-sub">Enter your access code to view your project</p>
+      <form id="login-form">
+        <input
+          type="password"
+          id="password-input"
+          placeholder="Access code"
+          autocomplete="off"
+          autofocus
+        >
+        <button type="submit">Enter</button>
+        <p id="error-msg" class="error-msg hidden">Incorrect code — please try again.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── PORTAL ── -->
+  <div id="portal" class="portal hidden">
+
+    <!-- Header -->
+    <header class="portal-header">
+      <div class="header-inner">
+        <span class="studio-logo">Studio</span>
+        <nav class="portal-nav">
+          <a href="#moodboard" class="nav-link">Mood Board</a>
+          <a href="#products"  class="nav-link">Selections</a>
+          <a href="#palette"   class="nav-link">Palette</a>
+        </nav>
+        <button id="logout-btn" class="logout-btn">← Exit</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="portal-hero">
+      <div class="hero-inner">
+        <p  class="hero-label"    id="hero-label"></p>
+        <h1 class="hero-title"    id="hero-title"></h1>
+        <p  class="hero-subtitle" id="hero-subtitle"></p>
+      </div>
+    </section>
+
+    <!-- 01 · Mood Board -->
+    <section id="moodboard" class="section">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Mood Board</h2>
+      </div>
+      <div class="moodboard-grid" id="moodboard-grid"></div>
+    </section>
+
+    <!-- 02 · Product Selections -->
+    <section id="products" class="section section-dark">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Curated Selections</h2>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+    </section>
+
+    <!-- 03 · Color Palette -->
+    <section id="palette" class="section">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Color Palette</h2>
+      </div>
+      <div class="palette-row" id="palette-row"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="portal-footer">
+      <p>Prepared exclusively for <span id="footer-name"></span></p>
+    </footer>
+
+  </div><!-- /portal -->
+
+  <script src="app.js"></script>
+</body>
+</html>

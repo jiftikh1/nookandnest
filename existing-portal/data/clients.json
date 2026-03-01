@@ -1,0 +1,107 @@
+{
+  "clients": [
+    {
+      "id": "chen-residence",
+      "name": "The Chen Residence",
+      "label": "Living Room · 2024",
+      "subtitle": "Warm minimalism with natural textures",
+      "password": "linen2024",
+
+      "moodboard": [
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1400&q=80",
+        "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=900&q=80",
+        "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80",
+        "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=900&q=80",
+        "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=900&q=80",
+        "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=900&q=80"
+      ],
+
+      "products": [
+        {
+          "name": "Volta Linen Sofa",
+          "brand": "Arhaus",
+          "price": "$3,499",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=80",
+          "notes": "Natural Linen. 108\" width. 12–14 week lead time.",
+          "link": "https://www.arhaus.com"
+        },
+        {
+          "name": "Hector Side Table",
+          "brand": "CB2",
+          "price": "$649",
+          "image": "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=700&q=80",
+          "notes": "Solid white oak. Set of 2 recommended.",
+          "link": "https://www.cb2.com"
+        },
+        {
+          "name": "Jute Area Rug, 9×12",
+          "brand": "Pottery Barn",
+          "price": "$899",
+          "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=700&q=80",
+          "notes": "Hand-woven natural jute. In stock.",
+          "link": "https://www.potterybarn.com"
+        }
+      ],
+
+      "palette": [
+        { "name": "Warm White",  "hex": "#F4F1EC", "code": "BM OC-17"   },
+        { "name": "Stone",       "hex": "#C4B9A8", "code": "SW 7032"    },
+        { "name": "Sage",        "hex": "#8B9E8A", "code": "BM 2144-40" },
+        { "name": "Driftwood",   "hex": "#8C7B6B", "code": "SW 6082"    },
+        { "name": "Charcoal",    "hex": "#3A3832", "code": "BM 2127-20" }
+      ]
+    },
+
+    {
+      "id": "harlow-penthouse",
+      "name": "Harlow Penthouse",
+      "label": "Master Suite · 2024",
+      "subtitle": "Contemporary luxury with dark, moody tones",
+      "password": "onyx2024",
+
+      "moodboard": [
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1400&q=80",
+        "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=900&q=80",
+        "https://images.unsplash.com/photo-1560184897-67f4a4a5e5a4?w=900&q=80",
+        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&q=80",
+        "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=900&q=80",
+        "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=80"
+      ],
+
+      "products": [
+        {
+          "name": "Platform Bed, King",
+          "brand": "Restoration Hardware",
+          "price": "$5,200",
+          "image": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=700&q=80",
+          "notes": "Graphite Belgian Linen. 14–16 week lead time.",
+          "link": "https://www.rh.com"
+        },
+        {
+          "name": "Marble Nightstand",
+          "brand": "West Elm",
+          "price": "$798",
+          "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=700&q=80",
+          "notes": "Black marble top. Pair recommended.",
+          "link": "https://www.westelm.com"
+        },
+        {
+          "name": "Linen Drapes, 108\"",
+          "brand": "Serena & Lily",
+          "price": "$348 / panel",
+          "image": "https://images.unsplash.com/photo-1560184897-67f4a4a5e5a4?w=700&q=80",
+          "notes": "4 panels needed. Graphite linen. In stock.",
+          "link": "https://www.serenaandlily.com"
+        }
+      ],
+
+      "palette": [
+        { "name": "Onyx",       "hex": "#1C1C1A", "code": "BM 2127-10" },
+        { "name": "Graphite",   "hex": "#4A4A48", "code": "SW 7069"    },
+        { "name": "Warm Ivory", "hex": "#EDE8DF", "code": "BM OC-12"   },
+        { "name": "Brass",      "hex": "#B5924C", "code": "Accent"     },
+        { "name": "Smoke",      "hex": "#8A8A87", "code": "BM 2117-40" }
+      ]
+    }
+  ]
+}
