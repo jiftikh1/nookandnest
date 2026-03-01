@@ -3,5 +3,12 @@
   command = "npx prisma generate && npm run build"
   publish = ".next"
 
+[build.environment]
+  NEXT_PUBLIC_SUPABASE_URL      = "https://placeholder.supabase.co"
+  NEXT_PUBLIC_SUPABASE_ANON_KEY = "placeholder-anon-key"
+  SUPABASE_SERVICE_ROLE_KEY     = "placeholder-service-role-key"
+  DATABASE_URL                  = "postgresql://user:password@localhost:5432/placeholder"
+  NEXT_PUBLIC_APP_URL           = "https://placeholder.netlify.app"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
