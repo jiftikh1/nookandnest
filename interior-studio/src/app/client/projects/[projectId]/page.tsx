@@ -74,6 +74,17 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
         )}
       </div>
 
+      {/* Design Ideas CTA */}
+      <div className="mb-10 p-6 border rounded-sm flex items-center justify-between" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>
+        <div>
+          <p className="text-sm font-medium mb-0.5" style={{ color: "#1A1A1A" }}>Design Ideas</p>
+          <p className="text-sm" style={{ color: "#7A7A7A" }}>Review and respond to design ideas from your designer.</p>
+        </div>
+        <Link href={`/client/projects/${projectId}/ideas`} className="text-xs tracking-widest uppercase px-4 py-2.5 shrink-0" style={{ backgroundColor: "#8B7355", color: "#FFFFFF" }}>
+          View Ideas →
+        </Link>
+      </div>
+
       {/* Rooms */}
       {project.rooms.map((room) => (
         <div key={room.id} className="mb-16 pb-16 border-b last:border-0" style={{ borderColor: "#E0DCD6" }}>

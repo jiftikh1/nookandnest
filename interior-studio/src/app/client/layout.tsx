@@ -1,3 +1,5 @@
+import ClientNav from "@/components/layout/ClientNav";
+
 export default function ClientLayout({
   children,
 }: {
@@ -5,7 +7,8 @@ export default function ClientLayout({
 }) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#FAF8F5" }}>
-      {children}
+      <ClientNav />
+      <main style={{ paddingTop: "64px" }}>{children}</main>
     </div>
   );
 }
