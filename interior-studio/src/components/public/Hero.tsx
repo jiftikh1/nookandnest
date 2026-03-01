@@ -116,8 +116,8 @@ export default function Hero() {
               marginBottom: "1.5rem",
             }}
           >
-            Crafting spaces that tell{" "}
-            <em style={{ fontStyle: "italic", color: "#8B7355" }}>your story</em>
+            You bring the space.{" "}
+            <em style={{ fontStyle: "italic", color: "#8B7355" }}>We&apos;ll set the mood.</em>
           </h1>
           <p
             style={{
@@ -128,8 +128,10 @@ export default function Hero() {
               maxWidth: "480px",
             }}
           >
-            We create thoughtfully designed interiors that balance beauty with function,
-            transforming your vision into spaces you&apos;ll love living in.
+            Most spaces look fine. An amazing space hits you the moment you walk in — and you
+            can&apos;t quite explain why. That feeling isn&apos;t accidental. It&apos;s intentional.
+            It&apos;s designed. Welcome to Nook &amp; Nest Interiors, a San Francisco Bay Area
+            studio creating spaces that go beyond beautiful.
           </p>
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem" }}>
             <a
@@ -137,7 +139,7 @@ export default function Hero() {
               style={{
                 display: "inline-block",
                 padding: "0.9rem 2rem",
-                backgroundColor: "#8B7355",
+                backgroundColor: "#5C7A4E",
                 color: "#FFFFFF",
                 fontSize: "0.75rem",
                 letterSpacing: "0.12em",
@@ -145,8 +147,8 @@ export default function Hero() {
                 textDecoration: "none",
                 transition: "background 0.3s",
               }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#7A6345")}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#8B7355")}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#4A6840")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#5C7A4E")}
             >
               Start Your Project
             </a>
@@ -193,38 +195,81 @@ export default function Hero() {
             gap: "1rem",
           }}
         >
+          {/* Main large image */}
           <div
             style={{
               gridColumn: "1 / -1",
               height: "280px",
-              background: heroImages[0].bg,
               borderRadius: "2px",
-              display: "flex",
-              alignItems: "flex-end",
-              padding: "1.25rem",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #5C7A4E",
             }}
           >
-            <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
-              {heroImages[0].label}
+            <img
+              src="https://picsum.photos/seed/livingroom/800/560"
+              alt="Living Room"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <span style={{
+              position: "absolute", bottom: "1rem", left: "1.25rem",
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Living Room
             </span>
           </div>
-          {heroImages.slice(1).map((img) => (
-            <div
-              key={img.label}
-              style={{
-                height: "160px",
-                background: img.bg,
-                borderRadius: "2px",
-                display: "flex",
-                alignItems: "flex-end",
-                padding: "1rem",
-              }}
-            >
-              <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
-                {img.label}
-              </span>
-            </div>
-          ))}
+
+          {/* Kitchen */}
+          <div
+            style={{
+              height: "160px",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #8B7355",
+            }}
+          >
+            <img
+              src="https://picsum.photos/seed/kitchen1/400/320"
+              alt="Kitchen"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <span style={{
+              position: "absolute", bottom: "0.75rem", left: "1rem",
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Kitchen
+            </span>
+          </div>
+
+          {/* Bedroom */}
+          <div
+            style={{
+              height: "160px",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #5C7A4E",
+            }}
+          >
+            <img
+              src="https://picsum.photos/seed/bedroom1/400/320"
+              alt="Bedroom"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <span style={{
+              position: "absolute", bottom: "0.75rem", left: "1rem",
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Bedroom
+            </span>
+          </div>
         </div>
       </div>
 
