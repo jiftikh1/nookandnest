@@ -19,7 +19,7 @@ export async function GET() {
       where: { designerId },
       include: {
         client: { select: { id: true, name: true, email: true } },
-        _count: { select: { rooms: true } },
+        _count: { select: { rooms: true, ideas: true } },
       },
       orderBy: { updatedAt: "desc" },
     });

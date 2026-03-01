@@ -29,6 +29,12 @@ enum RenderStatus {
   PUBLISHED
 }
 
+enum ClientStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -62,6 +68,7 @@ model Project {
   rooms    Room[]
   updates  ProjectUpdate[]
   comments Comment[]
+  ideas    DesignIdea[]
 }
 
 model Room {
@@ -154,6 +161,27 @@ model ProjectUpdate {
   title     String
   body      String
   createdAt DateTime @default(now())
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model DesignIdea {
+  id            String       @id @default(cuid())
+  title         String
+  description   String?
+  imageUrls     String[]     @default([])
+  category      String?      // e.g. "Furniture", "Color Palette", "Lighting", "Overall"
+  internalNotes String?      // admin-only — never shown to client
+  externalNotes String?      // client-visible notes
+  isPushed      Boolean      @default(false)
+  pushedAt      DateTime?
+  clientStatus  ClientStatus @default(PENDING)
+  clientNote    String?      // client's feedback when approving/rejecting
+  respondedAt   DateTime?
+  order         Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)

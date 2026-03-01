@@ -8,7 +8,7 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const ALLOWED_BUCKETS = ["room-photos", "mood-boards", "references"];
+const ALLOWED_BUCKETS = ["room-photos", "mood-boards", "references", "ideas"];
 
 async function ensureBucketExists(bucket: string) {
   // Try to create it — silently ignore "already exists" errors
