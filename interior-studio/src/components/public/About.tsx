@@ -31,7 +31,7 @@ export default function About() {
             }}
           >
             <img
-              src="https://picsum.photos/seed/interior-studio/600/780"
+              src="/images/controlled-chaos.jpg"
               alt="Interior Design Studio"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
@@ -202,7 +202,7 @@ export default function About() {
             }}
           >
             <img
-              src="https://picsum.photos/seed/founders-portrait/600/780"
+              src="/images/bedroom-mirror.jpg"
               alt="Maryam and Nada"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />

@@ -58,11 +58,6 @@ function StatCounter({ target, label }: { target: number; label: string }) {
   );
 }
 
-const heroImages = [
-  { label: "Living Room", bg: "linear-gradient(160deg, #C4B5A0, #8B7355)" },
-  { label: "Kitchen", bg: "linear-gradient(160deg, #B8A990, #7A6545)" },
-  { label: "Bedroom", bg: "linear-gradient(160deg, #D4C5B0, #9A8A70)" },
-];
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -207,8 +202,8 @@ export default function Hero() {
             }}
           >
             <img
-              src="https://picsum.photos/seed/livingroom/800/560"
-              alt="Living Room"
+              src="/images/zahra-bedroom.png"
+              alt="Zahra's Bedroom"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
             <span style={{
@@ -217,11 +212,11 @@ export default function Hero() {
               color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
               padding: "0.25rem 0.6rem",
             }}>
-              Living Room
+              Bedroom
             </span>
           </div>
 
-          {/* Kitchen */}
+          {/* Dining */}
           <div
             style={{
               height: "160px",
@@ -232,8 +227,8 @@ export default function Hero() {
             }}
           >
             <img
-              src="https://picsum.photos/seed/kitchen1/400/320"
-              alt="Kitchen"
+              src="/images/dining-room.jpg"
+              alt="Dining Room"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
             <span style={{
@@ -242,7 +237,7 @@ export default function Hero() {
               color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
               padding: "0.25rem 0.6rem",
             }}>
-              Kitchen
+              Dining
             </span>
           </div>
 
@@ -257,7 +252,7 @@ export default function Hero() {
             }}
           >
             <img
-              src="https://picsum.photos/seed/bedroom1/400/320"
+              src="/images/bedroom-chair.jpg"
               alt="Bedroom"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
