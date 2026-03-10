@@ -1,63 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
-const stats = [
-  { target: 250, label: "Projects Completed" },
-  { target: 15, label: "Years Experience" },
-  { target: 30, label: "Design Awards" },
-];
-
-function useCounter(target: number, started: boolean) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!started) return;
-    let current = 0;
-    const increment = target / 60;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, 25);
-    return () => clearInterval(timer);
-  }, [target, started]);
-  return count;
-}
-
-function StatCounter({ target, label }: { target: number; label: string }) {
-  const count = useCounter(target, true);
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "2.5rem",
-          fontWeight: 300,
-          color: "#1A1A1A",
-          lineHeight: 1,
-        }}
-      >
-        {count}+
-      </div>
-      <div
-        style={{
-          fontSize: "0.7rem",
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: "#7A7A7A",
-          marginTop: "0.4rem",
-        }}
-      >
-        {label}
-      </div>
-    </div>
-  );
-}
-
+import { useRef } from "react";
+import Image from "next/image";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -128,7 +72,7 @@ export default function Hero() {
             It&apos;s designed. Welcome to Nook &amp; Nest Interiors, a San Francisco Bay Area
             studio creating spaces that go beyond beautiful.
           </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem" }}>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <a
               href="#contact"
               style={{
@@ -165,20 +109,6 @@ export default function Hero() {
               View Our Work →
             </a>
           </div>
-
-          {/* Stats */}
-          <div
-            style={{
-              display: "flex",
-              gap: "2.5rem",
-              paddingTop: "2rem",
-              borderTop: "1px solid #E0DCD6",
-            }}
-          >
-            {stats.map((s) => (
-              <StatCounter key={s.label} target={s.target} label={s.label} />
-            ))}
-          </div>
         </div>
 
         {/* Hero Visual */}
@@ -201,13 +131,17 @@ export default function Hero() {
               border: "2px solid #5C7A4E",
             }}
           >
-            <img
+            <Image
               src="/images/zahra-bedroom.png"
               alt="Zahra's Bedroom"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 600px"
+              quality={90}
+              priority
             />
             <span style={{
-              position: "absolute", bottom: "1rem", left: "1.25rem",
+              position: "absolute", bottom: "1rem", left: "1.25rem", zIndex: 1,
               fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
               color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
               padding: "0.25rem 0.6rem",
@@ -226,13 +160,16 @@ export default function Hero() {
               border: "2px solid #8B7355",
             }}
           >
-            <img
+            <Image
               src="/images/dining-room.jpg"
               alt="Dining Room"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 50vw, 290px"
+              quality={90}
             />
             <span style={{
-              position: "absolute", bottom: "0.75rem", left: "1rem",
+              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
               fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
               color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
               padding: "0.25rem 0.6rem",
@@ -251,13 +188,16 @@ export default function Hero() {
               border: "2px solid #5C7A4E",
             }}
           >
-            <img
+            <Image
               src="/images/bedroom-chair.jpg"
               alt="Bedroom"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 50vw, 290px"
+              quality={90}
             />
             <span style={{
-              position: "absolute", bottom: "0.75rem", left: "1rem",
+              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
               fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
               color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
               padding: "0.25rem 0.6rem",

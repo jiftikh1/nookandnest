@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function About() {
   return (
     <section
@@ -30,10 +32,13 @@ export default function About() {
               border: "3px solid #5C7A4E",
             }}
           >
-            <img
+            <Image
               src="/images/controlled-chaos.jpg"
               alt="Interior Design Studio"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 560px"
+              quality={90}
             />
             <div
               style={{
@@ -201,10 +206,13 @@ export default function About() {
               border: "3px solid #8B7355",
             }}
           >
-            <img
+            <Image
               src="/images/bedroom-mirror.jpg"
               alt="Maryam and Nada"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 560px"
+              quality={90}
             />
             <div
               style={{

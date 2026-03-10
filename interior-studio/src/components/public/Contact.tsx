@@ -3,9 +3,8 @@
 import { useState } from "react";
 
 const contactDetails = [
-  { label: "Email", value: "hello@nooksandnest.com" },
-  { label: "Phone", value: "+1 (555) 234-5678" },
-  { label: "Studio", value: "142 Design Avenue, Suite 300\nNew York, NY 10012" },
+  { label: "Email", value: "baynookandnest@gmail.com", href: "mailto:baynookandnest@gmail.com" },
+  { label: "Instagram", value: "@baynookandnest", href: "https://www.instagram.com/baynookandnest/" },
   { label: "Hours", value: "Mon — Fri: 9AM — 6PM\nSat: By Appointment" },
 ];
 
@@ -159,16 +158,33 @@ export default function Contact() {
                   >
                     {item.label}
                   </p>
-                  <p
-                    style={{
-                      fontSize: "0.875rem",
-                      color: "#4A4A4A",
-                      lineHeight: 1.7,
-                      whiteSpace: "pre-line",
-                    }}
-                  >
-                    {item.value}
-                  </p>
+                  {"href" in item ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: "0.875rem",
+                        color: "#4A4A4A",
+                        lineHeight: 1.7,
+                        textDecoration: "none",
+                        borderBottom: "1px solid #E0DCD6",
+                      }}
+                    >
+                      {item.value}
+                    </a>
+                  ) : (
+                    <p
+                      style={{
+                        fontSize: "0.875rem",
+                        color: "#4A4A4A",
+                        lineHeight: 1.7,
+                        whiteSpace: "pre-line",
+                      }}
+                    >
+                      {item.value}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

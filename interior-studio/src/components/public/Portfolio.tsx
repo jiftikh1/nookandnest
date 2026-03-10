@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const projects = [
   {
@@ -154,16 +155,16 @@ export default function Portfolio() {
                   if (img) img.style.transform = "scale(1)";
                 }}
               >
-                <img
+                <Image
                   src={project.img}
                   alt={project.title}
+                  fill
                   style={{
-                    width: "100%",
-                    height: "100%",
                     objectFit: "cover",
-                    display: "block",
                     transition: "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                   }}
+                  sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 380px"
+                  quality={85}
                 />
                 <span
                   style={{
@@ -233,11 +234,14 @@ export default function Portfolio() {
               overflow: "hidden",
             }}
           >
-            <div style={{ height: "300px", overflow: "hidden" }}>
-              <img
+            <div style={{ height: "300px", overflow: "hidden", position: "relative" }}>
+              <Image
                 src={lightbox.img}
                 alt={lightbox.title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="600px"
+                quality={90}
               />
             </div>
             <div style={{ padding: "2rem" }}>
