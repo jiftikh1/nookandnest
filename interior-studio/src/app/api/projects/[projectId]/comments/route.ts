@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 
+const MAX_COMMENT_LENGTH = 5000;
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const rateLimitMap = new Map<string, number[]>();
+
+function isRateLimited(userId: string): boolean {
+  const now = Date.now();
+  const timestamps = (rateLimitMap.get(userId) ?? []).filter(t => now - t < RATE_WINDOW_MS);
+  if (timestamps.length >= RATE_LIMIT) return true;
+  timestamps.push(now);
+  rateLimitMap.set(userId, timestamps);
+  return false;
+}
+
 async function getUser() {
   const supabase = await createServerSupabaseClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -43,6 +57,14 @@ export async function POST(
 
     if (!body.content?.trim()) {
       return NextResponse.json({ error: "Content required" }, { status: 400 });
+    }
+
+    if (body.content.length > MAX_COMMENT_LENGTH) {
+      return NextResponse.json({ error: "Comment too long" }, { status: 400 });
+    }
+
+    if (isRateLimited(user.id)) {
+      return NextResponse.json({ error: "Too many comments — try again later" }, { status: 429 });
     }
 
     const comment = await prisma.comment.create({
