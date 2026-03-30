@@ -43,7 +43,7 @@ export async function PATCH(
 
     return NextResponse.json(product);
   } catch (err) {
-    console.error(err);
+    console.error("[products]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -66,7 +66,7 @@ export async function DELETE(
     await prisma.product.delete({ where: { id: productId } });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error("[products]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

@@ -32,6 +32,11 @@ export async function GET(
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const { projectId } = await params;
 
+    if (user.role === "CLIENT") {
+      const project = await prisma.project.findFirst({ where: { id: projectId, clientId: user.id } });
+      if (!project) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
     const comments = await prisma.comment.findMany({
       where: { projectId },
       include: { user: { select: { name: true, role: true } } },
@@ -40,7 +45,7 @@ export async function GET(
 
     return NextResponse.json(comments);
   } catch (err) {
-    console.error(err);
+    console.error("[comments GET]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -79,7 +84,7 @@ export async function POST(
 
     return NextResponse.json(comment, { status: 201 });
   } catch (err) {
-    console.error(err);
+    console.error("[comments POST]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

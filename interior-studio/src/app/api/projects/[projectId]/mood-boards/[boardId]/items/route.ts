@@ -10,6 +10,12 @@ async function getDesignerId() {
   return dbUser?.role === "DESIGNER" || dbUser?.role === "ADMIN" ? dbUser.id : null;
 }
 
+function isValidUrl(url: unknown): boolean {
+  if (!url || typeof url !== "string") return true;
+  try { return ["http:", "https:"].includes(new URL(url).protocol); }
+  catch { return false; }
+}
+
 export async function POST(req: NextRequest, { params }: { params: Promise<{ projectId: string; boardId: string }> }) {
   try {
     const designerId = await getDesignerId();
@@ -19,13 +25,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pro
     const body = await req.json();
     const { imageUrl, caption } = body;
 
+    if (!isValidUrl(imageUrl)) return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
+
     const count = await prisma.moodBoardItem.count({ where: { moodBoardId: boardId } });
     const item = await prisma.moodBoardItem.create({
       data: { imageUrl, caption, moodBoardId: boardId, order: count },
     });
     return NextResponse.json(item, { status: 201 });
   } catch (err) {
-    console.error(err);
+    console.error("[mood-board items POST]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -40,7 +48,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ b
     await prisma.moodBoardItem.delete({ where: { id: itemId, moodBoardId: boardId } });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error("[mood-board items DELETE]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
