@@ -1,7 +1,69 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+
+const stats = [
+  { target: 250, label: "Projects Completed" },
+  { target: 15, label: "Years Experience" },
+  { target: 30, label: "Design Awards" },
+];
+
+function useCounter(target: number, started: boolean) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!started) return;
+    let current = 0;
+    const increment = target / 60;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(current));
+      }
+    }, 25);
+    return () => clearInterval(timer);
+  }, [target, started]);
+  return count;
+}
+
+function StatCounter({ target, label }: { target: number; label: string }) {
+  const count = useCounter(target, true);
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontSize: "2.5rem",
+          fontWeight: 300,
+          color: "#1A1A1A",
+          lineHeight: 1,
+        }}
+      >
+        {count}+
+      </div>
+      <div
+        style={{
+          fontSize: "0.7rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "#7A7A7A",
+          marginTop: "0.4rem",
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+}
+
+const heroImages = [
+  { label: "Kitchen Detail", src: "/hero-faucet.jpg" },
+  { label: "Dining Room", src: "/hero-dining.jpg" },
+  { label: "Kitchen", src: "/hero-main.jpg" },
+];
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -116,10 +178,41 @@ export default function Hero() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "auto auto",
-            gap: "1rem",
+            gap: "0",
           }}
         >
+          {/* Top two portrait images side by side — locked to faucet's aspect ratio */}
+          {heroImages.slice(0, 2).map((img, i) => (
+            <div
+              key={img.label}
+              style={{
+                borderRadius: "2px",
+                overflow: "hidden",
+                position: "relative",
+                aspectRatio: "2728 / 3410",
+                border: "12px solid #1A4A35",
+              }}
+            >
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                style={{ objectFit: "cover", objectPosition: i === 1 ? "center 55%" : "center" }}
+                priority
+              />
+            </div>
+          ))}
+          {/* Bottom full-width landscape image */}
+          <div style={{ gridColumn: "1 / -1", borderRadius: "2px", overflow: "hidden", border: "12px solid #1A4A35" }}>
+            <Image
+              src={heroImages[2].src}
+              alt={heroImages[2].label}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
           {/* Main large image */}
           <div
             style={{
