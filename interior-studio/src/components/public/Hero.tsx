@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const stats = [
   { target: 250, label: "Projects Completed" },
@@ -59,9 +60,9 @@ function StatCounter({ target, label }: { target: number; label: string }) {
 }
 
 const heroImages = [
-  { label: "Living Room", bg: "linear-gradient(160deg, #C4B5A0, #8B7355)" },
-  { label: "Kitchen", bg: "linear-gradient(160deg, #B8A990, #7A6545)" },
-  { label: "Bedroom", bg: "linear-gradient(160deg, #D4C5B0, #9A8A70)" },
+  { label: "Kitchen Detail", src: "/hero-faucet.jpg" },
+  { label: "Dining Room", src: "/hero-dining.jpg" },
+  { label: "Kitchen", src: "/hero-main.jpg" },
 ];
 
 export default function Hero() {
@@ -189,42 +190,41 @@ export default function Hero() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "auto auto",
-            gap: "1rem",
+            gap: "0",
           }}
         >
-          <div
-            style={{
-              gridColumn: "1 / -1",
-              height: "280px",
-              background: heroImages[0].bg,
-              borderRadius: "2px",
-              display: "flex",
-              alignItems: "flex-end",
-              padding: "1.25rem",
-            }}
-          >
-            <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
-              {heroImages[0].label}
-            </span>
-          </div>
-          {heroImages.slice(1).map((img) => (
+          {/* Top two portrait images side by side — locked to faucet's aspect ratio */}
+          {heroImages.slice(0, 2).map((img, i) => (
             <div
               key={img.label}
               style={{
-                height: "160px",
-                background: img.bg,
                 borderRadius: "2px",
-                display: "flex",
-                alignItems: "flex-end",
-                padding: "1rem",
+                overflow: "hidden",
+                position: "relative",
+                aspectRatio: "2728 / 3410",
+                border: "12px solid #1A4A35",
               }}
             >
-              <span style={{ fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }}>
-                {img.label}
-              </span>
+              <Image
+                src={img.src}
+                alt={img.label}
+                fill
+                style={{ objectFit: "cover", objectPosition: i === 1 ? "center 55%" : "center" }}
+                priority
+              />
             </div>
           ))}
+          {/* Bottom full-width landscape image */}
+          <div style={{ gridColumn: "1 / -1", borderRadius: "2px", overflow: "hidden", border: "12px solid #1A4A35" }}>
+            <Image
+              src={heroImages[2].src}
+              alt={heroImages[2].label}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
         </div>
       </div>
 
