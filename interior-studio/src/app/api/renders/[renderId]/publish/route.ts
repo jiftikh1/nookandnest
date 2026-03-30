@@ -16,6 +16,11 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ re
     if (!designerId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const { renderId } = await params;
 
+    const owned = await prisma.roomRender.findFirst({
+      where: { id: renderId, room: { project: { designerId } } },
+    });
+    if (!owned) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
     const render = await prisma.roomRender.update({
       where: { id: renderId },
       data: { isPublished: true, publishedAt: new Date(), status: "PUBLISHED" },

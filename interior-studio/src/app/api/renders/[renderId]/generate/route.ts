@@ -38,8 +38,8 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ re
     if (!designerId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const { renderId } = await params;
 
-    const render = await prisma.roomRender.findUnique({
-      where: { id: renderId },
+    const render = await prisma.roomRender.findFirst({
+      where: { id: renderId, room: { project: { designerId } } },
       include: { room: true },
     });
 

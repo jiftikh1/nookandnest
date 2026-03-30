@@ -41,8 +41,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ ren
 
     if (!maskDataUrl) return NextResponse.json({ error: "Mask image is required" }, { status: 400 });
 
-    const render = await prisma.roomRender.findUnique({
-      where: { id: renderId },
+    const render = await prisma.roomRender.findFirst({
+      where: { id: renderId, room: { project: { designerId } } },
       include: { room: true },
     });
 
