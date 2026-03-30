@@ -64,8 +64,6 @@ const heroImages = [
   { label: "Dining Room", src: "/hero-dining.jpg" },
   { label: "Kitchen", src: "/hero-main.jpg" },
 ];
-import { useRef } from "react";
-import Image from "next/image";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -214,6 +212,7 @@ export default function Hero() {
               sizes="100vw"
               style={{ width: "100%", height: "auto", display: "block" }}
             />
+          </div>
           {/* Main large image */}
           <div
             style={{
