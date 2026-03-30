@@ -40,9 +40,9 @@ export default async function AdminDashboard() {
 
   const stats = {
     total: projects.length,
-    active: projects.filter(p => ["PUBLISHED", "IN_REVIEW", "ACTIVE"].includes(p.status)).length,
-    totalIdeas: projects.reduce((sum, p) => sum + p.ideas.length, 0),
-    pendingReview: projects.reduce((sum, p) => sum + p.ideas.filter(i => i.isPushed && i.clientStatus === "PENDING").length, 0),
+    active: projects.filter((p: { status: string }) => ["PUBLISHED", "IN_REVIEW", "ACTIVE"].includes(p.status)).length,
+    totalIdeas: projects.reduce((sum: number, p: { ideas: unknown[] }) => sum + p.ideas.length, 0),
+    pendingReview: projects.reduce((sum: number, p: { ideas: { isPushed: boolean; clientStatus: string }[] }) => sum + p.ideas.filter(i => i.isPushed && i.clientStatus === "PENDING").length, 0),
   };
 
   return (

@@ -1,24 +1,17 @@
 const testimonials = [
   {
-    initials: "JR",
-    name: "James & Rachel",
-    role: "Homeowners, Park Avenue",
+    initials: "FG",
+    name: "Farin Godil",
+    role: "",
     quote:
-      "Nooks & Nest transformed our dated apartment into a space that feels both luxurious and completely natural. They listened to every detail and delivered beyond what we imagined.",
+      "Working with Nook and Nest was an absolute delight. Their design for my guest room far exceeded my expectations. I was most impressed by their attention to my budget; they sourced products that looked high-end but were very economical. The process was seamless, offering multiple layouts to help me visualize the space. I felt heard throughout and couldn't be happier. If you need a designer who genuinely cares, look no further!",
   },
   {
-    initials: "ML",
-    name: "Marco Lombardi",
-    role: "Owner, Terra Restaurant",
+    initials: "IM",
+    name: "Ilham Malick",
+    role: "Home Owner, Eden Shores",
     quote:
-      "Working with the Nooks & Nest team on our restaurant was seamless. They understood the brand we were building and created an atmosphere that our guests constantly compliment.",
-  },
-  {
-    initials: "SK",
-    name: "Sarah Kim",
-    role: "Homeowner, Brooklyn Heights",
-    quote:
-      "Professional, creative, and incredibly organized. Nooks & Nest managed our full home renovation on time and on budget. Our home finally feels like us.",
+      "I knew what I wanted but couldn't quite put it into words. Nook and Nest figured it out anyway. Their moodboards and renderings made everything click, and suddenly I could see exactly what my space was going to become. They got my style immediately and elevated it in ways I wouldn't have thought of myself. The whole experience felt collaborative, considerate, and genuinely exciting. I'm counting down the days to see it finished.",
   },
 ];
 
@@ -56,7 +49,7 @@ export default function Testimonials() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateColumns: "repeat(2, 1fr)",
             gap: "2rem",
           }}
           className="testimonials-grid"

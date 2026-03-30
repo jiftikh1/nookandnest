@@ -37,7 +37,7 @@ export default function CTA() {
             marginBottom: "1.25rem",
           }}
         >
-          Let&apos;s create something beautiful together
+          A quiet nook to retreat to. A nest that finally feels like yours.
         </h2>
         <p
           style={{
@@ -47,14 +47,15 @@ export default function CTA() {
             marginBottom: "2.5rem",
           }}
         >
-          Schedule a complimentary consultation and let&apos;s discuss how we can bring your vision to life.
+          This is yours. Let&apos;s make it feel like it. Schedule a complimentary consultation
+          and let&apos;s talk about how your space could be transformed.
         </p>
         <a
           href="#contact"
           style={{
             display: "inline-block",
             padding: "1rem 2.5rem",
-            backgroundColor: "#8B7355",
+            backgroundColor: "#5C7A4E",
             color: "#FFFFFF",
             fontSize: "0.75rem",
             letterSpacing: "0.15em",
@@ -62,8 +63,8 @@ export default function CTA() {
             textDecoration: "none",
             transition: "background 0.3s",
           }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#7A6345")}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#8B7355")}
+          onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#4A6840")}
+          onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#5C7A4E")}
         >
           Book a Consultation
         </a>

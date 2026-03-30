@@ -1,49 +1,50 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 const projects = [
   {
-    title: "Modern Loft Residence",
+    title: "Zahra's Bedroom",
     category: "residential",
     description:
-      "A minimalist loft conversion featuring open-plan living, natural materials, and custom built-in storage throughout.",
-    bg: "linear-gradient(160deg, #B8A990, #7A6545)",
+      "A serene bedroom transformation featuring rattan accents, sage green curtains, and a perfectly curated ladder shelf that balances warmth with calm.",
+    img: "/images/zahra-bedroom.png",
   },
   {
-    title: "Aura Co-working Space",
-    category: "commercial",
-    description:
-      "A collaborative workspace designed for creativity, with flexible zones, biophilic elements, and acoustic considerations.",
-    bg: "linear-gradient(160deg, #A89580, #6B5B45)",
-  },
-  {
-    title: "Serene Boutique Hotel",
-    category: "hospitality",
-    description:
-      "A 24-room boutique hotel blending local heritage with contemporary luxury. Each room tells a unique story.",
-    bg: "linear-gradient(160deg, #C4B5A0, #8B7355)",
-  },
-  {
-    title: "Coastal Family Home",
+    title: "Ilham's Soho Glam Bedroom",
     category: "residential",
     description:
-      "A beachfront family home with warm textures, ocean-inspired palettes, and seamless indoor-outdoor living spaces.",
-    bg: "linear-gradient(160deg, #D4C5B0, #9A8A70)",
+      "A soho glam bedroom with Italian marble-texture wallpaper, satin and velvet finishes, and a curated Instagram nook — designed for a modern creative.",
+    img: "/images/concept-board-ilham.png",
   },
   {
-    title: "Terra Restaurant",
+    title: "The Organized Nook",
+    category: "residential",
+    description:
+      "A compact study corner transformed into a beautifully organized workspace with a ladder shelf, curated accessories, and natural light.",
+    img: "/images/controlled-chaos.jpg",
+  },
+  {
+    title: "Rattan Retreat",
+    category: "residential",
+    description:
+      "A bedroom sanctuary centered around a statement hanging rattan chair, soft neutrals, and layered textures for a cozy, resort-like feel.",
+    img: "/images/bedroom-chair.jpg",
+  },
+  {
+    title: "Dining Room Refresh",
     category: "commercial",
     description:
-      "An intimate dining space with earthy tones, dramatic lighting, and custom furniture that sets the mood for fine dining.",
-    bg: "linear-gradient(160deg, #8B7355, #5A4530)",
+      "An airy dining space with mixed wooden chairs, a zinc-top table, and natural light — bringing warmth and a relaxed gathering atmosphere.",
+    img: "/images/dining-room.jpg",
   },
   {
-    title: "Spa & Wellness Center",
-    category: "hospitality",
+    title: "The Mirror & The Monstera",
+    category: "residential",
     description:
-      "A tranquil retreat space using natural stone, warm lighting, and flowing water features to create a restorative atmosphere.",
-    bg: "linear-gradient(160deg, #C4A882, #8B7355)",
+      "A styled bedroom corner using a full-length arch mirror, a lush monstera plant, and a woven basket to create a bold yet organic vignette.",
+    img: "/images/bedroom-mirror.jpg",
   },
 ];
 
@@ -142,25 +143,40 @@ export default function Portfolio() {
               <div
                 style={{
                   height: "260px",
-                  background: project.bg,
-                  transition: "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  padding: "1.25rem",
+                  overflow: "hidden",
+                  position: "relative",
                 }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
-                }
+                onMouseEnter={(e) => {
+                  const img = e.currentTarget.querySelector("img") as HTMLElement;
+                  if (img) img.style.transform = "scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  const img = e.currentTarget.querySelector("img") as HTMLElement;
+                  if (img) img.style.transform = "scale(1)";
+                }}
               >
+                <Image
+                  src={project.img}
+                  alt={project.title}
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    transition: "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                  }}
+                  sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 380px"
+                  quality={85}
+                />
                 <span
                   style={{
+                    position: "absolute",
+                    bottom: "1rem",
+                    left: "1rem",
                     fontSize: "0.65rem",
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.7)",
+                    color: "rgba(255,255,255,0.9)",
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                    padding: "0.2rem 0.5rem",
                   }}
                 >
                   {project.category}
@@ -218,7 +234,16 @@ export default function Portfolio() {
               overflow: "hidden",
             }}
           >
-            <div style={{ height: "300px", background: lightbox.bg }} />
+            <div style={{ height: "300px", overflow: "hidden", position: "relative" }}>
+              <Image
+                src={lightbox.img}
+                alt={lightbox.title}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="600px"
+                quality={90}
+              />
+            </div>
             <div style={{ padding: "2rem" }}>
               <p
                 style={{

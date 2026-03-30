@@ -64,6 +64,8 @@ const heroImages = [
   { label: "Dining Room", src: "/hero-dining.jpg" },
   { label: "Kitchen", src: "/hero-main.jpg" },
 ];
+import { useRef } from "react";
+import Image from "next/image";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -117,8 +119,8 @@ export default function Hero() {
               marginBottom: "1.5rem",
             }}
           >
-            Crafting spaces that tell{" "}
-            <em style={{ fontStyle: "italic", color: "#8B7355" }}>your story</em>
+            You bring the space.{" "}
+            <em style={{ fontStyle: "italic", color: "#8B7355" }}>We&apos;ll set the mood.</em>
           </h1>
           <p
             style={{
@@ -129,16 +131,18 @@ export default function Hero() {
               maxWidth: "480px",
             }}
           >
-            We create thoughtfully designed interiors that balance beauty with function,
-            transforming your vision into spaces you&apos;ll love living in.
+            Most spaces look fine. An amazing space hits you the moment you walk in — and you
+            can&apos;t quite explain why. That feeling isn&apos;t accidental. It&apos;s intentional.
+            It&apos;s designed. Welcome to Nook &amp; Nest Interiors, a San Francisco Bay Area
+            studio creating spaces that go beyond beautiful.
           </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem" }}>
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <a
               href="#contact"
               style={{
                 display: "inline-block",
                 padding: "0.9rem 2rem",
-                backgroundColor: "#8B7355",
+                backgroundColor: "#5C7A4E",
                 color: "#FFFFFF",
                 fontSize: "0.75rem",
                 letterSpacing: "0.12em",
@@ -146,8 +150,8 @@ export default function Hero() {
                 textDecoration: "none",
                 transition: "background 0.3s",
               }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#7A6345")}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#8B7355")}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#4A6840")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#5C7A4E")}
             >
               Start Your Project
             </a>
@@ -168,20 +172,6 @@ export default function Hero() {
             >
               View Our Work →
             </a>
-          </div>
-
-          {/* Stats */}
-          <div
-            style={{
-              display: "flex",
-              gap: "2.5rem",
-              paddingTop: "2rem",
-              borderTop: "1px solid #E0DCD6",
-            }}
-          >
-            {stats.map((s) => (
-              <StatCounter key={s.label} target={s.target} label={s.label} />
-            ))}
           </div>
         </div>
 
@@ -224,6 +214,90 @@ export default function Hero() {
               sizes="100vw"
               style={{ width: "100%", height: "auto", display: "block" }}
             />
+          {/* Main large image */}
+          <div
+            style={{
+              gridColumn: "1 / -1",
+              height: "280px",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #5C7A4E",
+            }}
+          >
+            <Image
+              src="/images/zahra-bedroom.png"
+              alt="Zahra's Bedroom"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 600px"
+              quality={90}
+              priority
+            />
+            <span style={{
+              position: "absolute", bottom: "1rem", left: "1.25rem", zIndex: 1,
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Bedroom
+            </span>
+          </div>
+
+          {/* Dining */}
+          <div
+            style={{
+              height: "160px",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #8B7355",
+            }}
+          >
+            <Image
+              src="/images/dining-room.jpg"
+              alt="Dining Room"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 50vw, 290px"
+              quality={90}
+            />
+            <span style={{
+              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Dining
+            </span>
+          </div>
+
+          {/* Bedroom */}
+          <div
+            style={{
+              height: "160px",
+              borderRadius: "2px",
+              overflow: "hidden",
+              position: "relative",
+              border: "2px solid #5C7A4E",
+            }}
+          >
+            <Image
+              src="/images/bedroom-chair.jpg"
+              alt="Bedroom"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 50vw, 290px"
+              quality={90}
+            />
+            <span style={{
+              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
+              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
+              padding: "0.25rem 0.6rem",
+            }}>
+              Bedroom
+            </span>
           </div>
         </div>
       </div>

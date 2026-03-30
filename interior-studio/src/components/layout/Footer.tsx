@@ -5,8 +5,13 @@ import Link from "next/link";
 const footerLinks = {
   Services: ["Residential Design", "Commercial Spaces", "Space Planning", "Furniture Curation"],
   Company: ["About Us", "Portfolio", "Our Process", "Reviews"],
-  Connect: ["Contact Us", "Instagram", "Pinterest", "LinkedIn"],
 };
+
+const connectLinks = [
+  { label: "Contact Us", href: "#contact" },
+  { label: "Instagram", href: "https://www.instagram.com/baynookandnest/" },
+  { label: "Email", href: "mailto:baynookandnest@gmail.com" },
+];
 
 export default function Footer() {
   return (
@@ -40,7 +45,7 @@ export default function Footer() {
               Nooks<span style={{ color: "#8B7355" }}>&</span>Nest
             </a>
             <p style={{ fontSize: "0.85rem", color: "#7A7A7A", lineHeight: 1.8, maxWidth: "260px" }}>
-              Creating thoughtfully designed interiors that balance beauty with function since 2010.
+              Creating thoughtfully designed interiors that balance beauty with function in the San Francisco Bay Area.
             </p>
           </div>
 
@@ -79,6 +84,42 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Connect column */}
+          <div>
+            <p
+              style={{
+                fontSize: "0.65rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#7A7A7A",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Connect
+            </p>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {connectLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    style={{
+                      fontSize: "0.85rem",
+                      color: "rgba(255,255,255,0.6)",
+                      textDecoration: "none",
+                      transition: "color 0.3s",
+                    }}
+                    onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#C4A882")}
+                    onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.6)")}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* Bottom */}
