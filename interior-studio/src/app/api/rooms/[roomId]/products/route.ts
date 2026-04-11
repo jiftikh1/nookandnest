@@ -17,6 +17,12 @@ async function verifyRoom(roomId: string, designerId: string) {
   });
 }
 
+function isValidUrl(url: unknown): boolean {
+  if (!url || typeof url !== "string") return true;
+  try { return ["http:", "https:"].includes(new URL(url).protocol); }
+  catch { return false; }
+}
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ roomId: string }> }
@@ -35,7 +41,7 @@ export async function GET(
 
     return NextResponse.json(products);
   } catch (err) {
-    console.error(err);
+    console.error("[products GET]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -52,6 +58,10 @@ export async function POST(
     if (!room) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const body = await req.json();
+
+    if (!isValidUrl(body.productUrl)) return NextResponse.json({ error: "Invalid product URL" }, { status: 400 });
+    if (!isValidUrl(body.imageUrl)) return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
+
     const product = await prisma.product.create({
       data: {
         name: body.name,
@@ -69,7 +79,7 @@ export async function POST(
 
     return NextResponse.json(product, { status: 201 });
   } catch (err) {
-    console.error(err);
+    console.error("[products POST]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

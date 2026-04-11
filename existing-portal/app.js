@@ -33,7 +33,8 @@ function setupLoginForm() {
     e.preventDefault();
     const input = document.getElementById('password-input');
     const pass  = input.value.trim();
-    const client = allClients.find(c => c.password === pass);
+    const results = await Promise.all(allClients.map(c => dcodeIO.bcrypt.compare(pass, c.password)));
+    const client = allClients.find((_, i) => results[i]);
 
     if (client) {
       sessionStorage.setItem('clientId', client.id);

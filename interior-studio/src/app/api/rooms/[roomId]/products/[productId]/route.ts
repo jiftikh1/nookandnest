@@ -17,9 +17,15 @@ export async function PATCH(
   try {
     const designerId = await getDesignerId();
     if (!designerId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const { productId } = await params;
-    const body = await req.json();
+    const { roomId, productId } = await params;
 
+    const room = await prisma.room.findFirst({ where: { id: roomId, project: { designerId } } });
+    if (!room) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    const owned = await prisma.product.findFirst({ where: { id: productId, roomId } });
+    if (!owned) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    const body = await req.json();
     const product = await prisma.product.update({
       where: { id: productId },
       data: {
@@ -37,7 +43,7 @@ export async function PATCH(
 
     return NextResponse.json(product);
   } catch (err) {
-    console.error(err);
+    console.error("[products]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -49,12 +55,18 @@ export async function DELETE(
   try {
     const designerId = await getDesignerId();
     if (!designerId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    const { productId } = await params;
+    const { roomId, productId } = await params;
+
+    const room = await prisma.room.findFirst({ where: { id: roomId, project: { designerId } } });
+    if (!room) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    const owned = await prisma.product.findFirst({ where: { id: productId, roomId } });
+    if (!owned) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     await prisma.product.delete({ where: { id: productId } });
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error("[products]", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
