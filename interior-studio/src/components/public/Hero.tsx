@@ -1,309 +1,263 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const stats = [
-  { target: 250, label: "Projects Completed" },
-  { target: 15, label: "Years Experience" },
-  { target: 30, label: "Design Awards" },
-];
-
-function useCounter(target: number, started: boolean) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!started) return;
-    let current = 0;
-    const increment = target / 60;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, 25);
-    return () => clearInterval(timer);
-  }, [target, started]);
-  return count;
-}
-
-function StatCounter({ target, label }: { target: number; label: string }) {
-  const count = useCounter(target, true);
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "2.5rem",
-          fontWeight: 300,
-          color: "#1A1A1A",
-          lineHeight: 1,
-        }}
-      >
-        {count}+
-      </div>
-      <div
-        style={{
-          fontSize: "0.7rem",
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: "#7A7A7A",
-          marginTop: "0.4rem",
-        }}
-      >
-        {label}
-      </div>
-    </div>
-  );
-}
-
-const heroImages = [
-  { label: "Kitchen Detail", src: "/hero-faucet.jpg" },
-  { label: "Dining Room", src: "/hero-dining.jpg" },
-  { label: "Kitchen", src: "/hero-main.jpg" },
-];
-
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-
   return (
     <section
-      ref={sectionRef}
       id="hero"
       style={{
         minHeight: "100vh",
-        backgroundColor: "#FAF8F5",
-        display: "flex",
-        alignItems: "center",
-        paddingTop: "5rem",
+        position: "relative",
+        paddingTop: "7rem",
+        paddingBottom: "5rem",
         overflow: "hidden",
       }}
     >
+
+      {/* Vertical edge label */}
       <div
+        className="edge-label"
         style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "4rem 2rem",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "4rem",
-          alignItems: "center",
-          width: "100%",
+          position: "absolute",
+          left: "1.25rem",
+          top: "50%",
+          transform: "rotate(-90deg)",
+          transformOrigin: "left center",
+          fontSize: "0.62rem",
+          letterSpacing: "0.5em",
+          textTransform: "uppercase",
+          color: "#5C7A4E",
+          whiteSpace: "nowrap",
         }}
-        className="hero-grid"
       >
-        {/* Content */}
-        <div>
+        sanctuary — by design
+      </div>
+
+      <div
+        className="hero-grid"
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "0 3.5rem",
+          display: "grid",
+          gridTemplateColumns: "1.05fr 1fr",
+          gap: "5rem",
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
+        {/* Left: editorial text */}
+        <div style={{ position: "relative" }}>
           <p
             style={{
               fontSize: "0.7rem",
-              letterSpacing: "0.3em",
+              letterSpacing: "0.4em",
               textTransform: "uppercase",
-              color: "#8B7355",
-              marginBottom: "1.5rem",
+              color: "#9E7D5A",
+              marginBottom: "2.75rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.9rem",
             }}
           >
-            Interior Design Studio
+            <span
+              style={{
+                display: "inline-block",
+                width: "36px",
+                height: "1px",
+                backgroundColor: "#9E7D5A",
+              }}
+            />
+            Est. quietly · Bay Area
           </p>
+
           <h1
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(2.5rem, 5vw, 4rem)",
+              fontSize: "clamp(3rem, 6.8vw, 6rem)",
               fontWeight: 300,
               color: "#1A1A1A",
-              lineHeight: 1.15,
-              marginBottom: "1.5rem",
+              lineHeight: 1.02,
+              letterSpacing: "-0.015em",
+              marginBottom: "2.75rem",
             }}
           >
-            You bring the space.{" "}
-            <em style={{ fontStyle: "italic", color: "#8B7355" }}>We&apos;ll set the mood.</em>
+            Spaces that hold
+            <br />
+            your{" "}
+            <em
+              style={{
+                fontStyle: "italic",
+                color: "#3A2E24",
+              }}
+            >
+              stillness
+            </em>
+            .
           </h1>
-          <p
+
+          {/* Verse-like manifesto */}
+          <div
             style={{
-              fontSize: "1rem",
-              color: "#7A7A7A",
-              lineHeight: 1.8,
-              marginBottom: "2.5rem",
-              maxWidth: "480px",
+              borderLeft: "1px solid #9E7D5A",
+              paddingLeft: "1.75rem",
+              marginBottom: "3rem",
+              maxWidth: "460px",
             }}
           >
-            Most spaces look fine. An amazing space hits you the moment you walk in — and you
-            can&apos;t quite explain why. That feeling isn&apos;t accidental. It&apos;s intentional.
-            It&apos;s designed. Welcome to Nook &amp; Nest Interiors, a San Francisco Bay Area
-            studio creating spaces that go beyond beautiful.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <a
-              href="#contact"
+            <p
               style={{
-                display: "inline-block",
-                padding: "0.9rem 2rem",
-                backgroundColor: "#5C7A4E",
-                color: "#FFFFFF",
-                fontSize: "0.75rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                transition: "background 0.3s",
-              }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#4A6840")}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#5C7A4E")}
-            >
-              Start Your Project
-            </a>
-            <a
-              href="#portfolio"
-              style={{
-                display: "inline-block",
-                padding: "0.9rem 2rem",
-                backgroundColor: "transparent",
-                color: "#1A1A1A",
-                fontSize: "0.75rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                border: "1px solid #E0DCD6",
-                transition: "border-color 0.3s",
+                fontFamily: "var(--font-serif)",
+                fontSize: "1.2rem",
+                fontStyle: "italic",
+                color: "#3A2E24",
+                lineHeight: 1.65,
+                marginBottom: "1.1rem",
               }}
             >
-              View Our Work →
-            </a>
+              A home is not a house —
+              <br />
+              it&apos;s the body remembering it is safe.
+            </p>
+            <p
+              style={{
+                fontSize: "0.92rem",
+                color: "#7A6A58",
+                lineHeight: 1.85,
+              }}
+            >
+              We design rooms that breathe with you. Grounded in ritual,
+              rooted in material, tuned to the quiet you&apos;ve been trying
+              to name.
+            </p>
           </div>
+
+          <a
+            href="#contact"
+            className="hero-cta"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.85rem",
+              fontSize: "0.72rem",
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              color: "#3A2E24",
+              textDecoration: "none",
+              borderBottom: "1px solid #3A2E24",
+              paddingBottom: "0.45rem",
+              transition: "color 900ms ease, gap 900ms ease, border-color 900ms ease",
+            }}
+          >
+            Begin a conversation
+            <span style={{ fontSize: "1rem" }}>→</span>
+          </a>
         </div>
 
-        {/* Hero Visual */}
+        {/* Right: asymmetric image composition */}
         <div
+          className="hero-visual"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "0",
+            position: "relative",
+            height: "640px",
           }}
         >
-          {/* Top two portrait images side by side — locked to faucet's aspect ratio */}
-          {heroImages.slice(0, 2).map((img, i) => (
-            <div
-              key={img.label}
-              style={{
-                borderRadius: "2px",
-                overflow: "hidden",
-                position: "relative",
-                aspectRatio: "2728 / 3410",
-                border: "4px solid #3A2E24",
-              }}
-            >
-              <Image
-                src={img.src}
-                alt={img.label}
-                fill
-                style={{ objectFit: "cover", objectPosition: i === 1 ? "center 55%" : "center" }}
-                priority
-              />
-            </div>
-          ))}
-          {/* Bottom full-width landscape image */}
-          <div style={{ gridColumn: "1 / -1", borderRadius: "2px", overflow: "hidden", border: "4px solid #3A2E24" }}>
-            <Image
-              src={heroImages[2].src}
-              alt={heroImages[2].label}
-              width={0}
-              height={0}
-              sizes="100vw"
-              style={{ width: "100%", height: "auto", display: "block" }}
-            />
-          </div>
-          {/* Main large image */}
+          {/* Primary tall image, offset right */}
           <div
             style={{
-              gridColumn: "1 / -1",
-              height: "280px",
-              borderRadius: "2px",
-              overflow: "hidden",
-              position: "relative",
+              position: "absolute",
+              top: 0,
+              right: 0,
+              width: "78%",
+              height: "86%",
               border: "4px solid #3A2E24",
+              overflow: "hidden",
+              backgroundColor: "#3A2E24",
             }}
           >
             <Image
-              src="/images/zahra-bedroom.png"
-              alt="Zahra's Bedroom"
+              src="/hero-main.jpg"
+              alt="Designed interior"
               fill
               style={{ objectFit: "cover" }}
-              sizes="(max-width: 768px) 100vw, 600px"
-              quality={90}
+              sizes="(max-width: 900px) 100vw, 600px"
               priority
             />
-            <span style={{
-              position: "absolute", bottom: "1rem", left: "1.25rem", zIndex: 1,
-              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
-              padding: "0.25rem 0.6rem",
-            }}>
-              Bedroom
-            </span>
           </div>
 
-          {/* Dining */}
+          {/* Secondary inset image, bottom-left overlap */}
           <div
             style={{
-              height: "160px",
-              borderRadius: "2px",
-              overflow: "hidden",
-              position: "relative",
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "46%",
+              height: "44%",
               border: "4px solid #3A2E24",
+              overflow: "hidden",
+              backgroundColor: "#3A2E24",
+              zIndex: 2,
             }}
           >
             <Image
-              src="/images/dining-room.jpg"
-              alt="Dining Room"
+              src="/hero-faucet.jpg"
+              alt="Interior detail"
               fill
               style={{ objectFit: "cover" }}
-              sizes="(max-width: 768px) 50vw, 290px"
-              quality={90}
+              sizes="(max-width: 900px) 50vw, 320px"
+              priority
             />
-            <span style={{
-              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
-              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
-              padding: "0.25rem 0.6rem",
-            }}>
-              Dining
-            </span>
           </div>
 
-          {/* Bedroom */}
+          {/* Catalog-style caption */}
           <div
             style={{
-              height: "160px",
-              borderRadius: "2px",
-              overflow: "hidden",
-              position: "relative",
-              border: "4px solid #3A2E24",
+              position: "absolute",
+              bottom: "-2.25rem",
+              right: 0,
+              textAlign: "right",
             }}
           >
-            <Image
-              src="/images/bedroom-chair.jpg"
-              alt="Bedroom"
-              fill
-              style={{ objectFit: "cover" }}
-              sizes="(max-width: 768px) 50vw, 290px"
-              quality={90}
-            />
-            <span style={{
-              position: "absolute", bottom: "0.75rem", left: "1rem", zIndex: 1,
-              fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.35)",
-              padding: "0.25rem 0.6rem",
-            }}>
-              Bedroom
-            </span>
+            <p
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.35em",
+                textTransform: "uppercase",
+                color: "#9E7D5A",
+                marginBottom: "0.3rem",
+              }}
+            >
+              No. 01
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontStyle: "italic",
+                fontSize: "0.95rem",
+                color: "#3A2E24",
+              }}
+            >
+              The slow kitchen
+            </p>
           </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+        .hero-cta:hover {
+          color: #9E7D5A;
+          gap: 1.2rem;
+          border-color: #9E7D5A;
+        }
+        @media (max-width: 900px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 3.5rem !important;
+            padding: 0 1.5rem !important;
+          }
+          .hero-visual { height: 500px !important; }
+          .edge-label { display: none !important; }
         }
       `}</style>
     </section>

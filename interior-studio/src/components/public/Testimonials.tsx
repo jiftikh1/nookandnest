@@ -19,7 +19,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      style={{ backgroundColor: "#FFFFFF", padding: "6rem 0" }}
+      style={{ padding: "6rem 0" }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>

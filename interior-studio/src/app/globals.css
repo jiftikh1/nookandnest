@@ -135,3 +135,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Limewash plaster wall — cool grey-beige, soft cloud mottling. */
+.plaster-wall {
+  position: relative;
+  background-color: #D8D2C7;
+}
+
+.plaster-wall::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 15%, rgba(235,230,220,0.85), transparent 75%),
+    radial-gradient(ellipse 60% 55% at 85% 20%, rgba(225,218,206,0.55), transparent 78%),
+    radial-gradient(ellipse 80% 65% at 30% 95%, rgba(168,159,146,0.32), transparent 80%),
+    radial-gradient(ellipse 60% 55% at 80% 80%, rgba(184,176,162,0.38), transparent 76%),
+    radial-gradient(ellipse 50% 45% at 55% 50%, rgba(228,222,210,0.45), transparent 82%),
+    radial-gradient(ellipse 40% 35% at 42% 65%, rgba(196,186,170,0.25), transparent 78%),
+    #D8D2C7;
+}
+
+.plaster-wall::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='560'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.48' numOctaves='3' stitchTiles='stitch' seed='6'/><feColorMatrix values='0 0 0 0 0.32 0 0 0 0 0.30 0 0 0 0 0.26 0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}

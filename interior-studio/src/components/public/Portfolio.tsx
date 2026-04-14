@@ -59,7 +59,7 @@ export default function Portfolio() {
   );
 
   return (
-    <section id="portfolio" style={{ backgroundColor: "#FAF8F5", padding: "6rem 0" }}>
+    <section id="portfolio" style={{ padding: "6rem 0" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 2rem" }}>
         {/* Header */}
         <div
