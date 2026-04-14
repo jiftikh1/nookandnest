@@ -4,7 +4,6 @@ export default function CTA() {
   return (
     <section
       style={{
-        backgroundColor: "#F0EDE8",
         padding: "6rem 0",
       }}
     >

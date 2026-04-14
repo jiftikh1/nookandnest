@@ -5,7 +5,6 @@ export default function About() {
     <section
       id="about"
       style={{
-        backgroundColor: "#FFFFFF",
         padding: "6rem 0",
       }}
     >
@@ -29,7 +28,7 @@ export default function About() {
               borderRadius: "2px",
               position: "relative",
               overflow: "hidden",
-              border: "3px solid #5C7A4E",
+              border: "4px solid #3A2E24",
             }}
           >
             <Image
@@ -203,7 +202,7 @@ export default function About() {
               borderRadius: "2px",
               position: "relative",
               overflow: "hidden",
-              border: "3px solid #8B7355",
+              border: "4px solid #3A2E24",
             }}
           >
             <Image

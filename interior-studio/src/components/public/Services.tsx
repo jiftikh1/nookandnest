@@ -38,7 +38,6 @@ export default function Services() {
     <section
       id="services"
       style={{
-        backgroundColor: "#F0EDE8",
         padding: "6rem 0",
       }}
     >

@@ -30,10 +30,11 @@ export default function PublicNav() {
         right: 0,
         zIndex: 1000,
         transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-        backgroundColor: scrolled ? "rgba(250,248,245,0.95)" : "transparent",
+        backgroundColor: scrolled ? "rgba(36,27,20,0.96)" : "#3A2E24",
         backdropFilter: scrolled ? "blur(10px)" : "none",
-        borderBottom: scrolled ? "1px solid #E0DCD6" : "1px solid transparent",
-        padding: scrolled ? "0.75rem 0" : "1.5rem 0",
+        borderBottom: "1px solid rgba(158,125,90,0.25)",
+        padding: scrolled ? "0.75rem 0" : "1.25rem 0",
+        boxShadow: "0 2px 18px -8px rgba(0,0,0,0.35)",
       }}
     >
       <div
@@ -53,12 +54,12 @@ export default function PublicNav() {
             fontFamily: "var(--font-serif)",
             fontSize: "1.5rem",
             fontWeight: 400,
-            color: "#1A1A1A",
+            color: "#FAF2E4",
             letterSpacing: "0.02em",
             textDecoration: "none",
           }}
         >
-          Nook<span style={{ color: "#8B7355" }}>&</span>Nest
+          Nook<span style={{ color: "#9E7D5A" }}>&</span>Nest
         </a>
 
         {/* Desktop Nav */}
@@ -81,12 +82,12 @@ export default function PublicNav() {
                   fontSize: "0.8rem",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  color: "#4A4A4A",
+                  color: "#E8DFD0",
                   textDecoration: "none",
                   transition: "color 0.3s",
                 }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#8B7355")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#4A4A4A")}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#C9A97A")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#E8DFD0")}
               >
                 {link.label}
               </a>
@@ -99,14 +100,14 @@ export default function PublicNav() {
                 fontSize: "0.75rem",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#FFFFFF",
-                backgroundColor: "#8B7355",
+                color: "#FAF2E4",
+                backgroundColor: "#5C7A4E",
                 padding: "0.6rem 1.4rem",
                 textDecoration: "none",
                 transition: "background 0.3s",
               }}
-              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#7A6345")}
-              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#8B7355")}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#47613C")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#5C7A4E")}
             >
               Get in Touch
             </a>
@@ -118,9 +119,9 @@ export default function PublicNav() {
                 fontSize: "0.75rem",
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
-                color: "#7A7A7A",
+                color: "#B5A893",
                 textDecoration: "none",
-                borderBottom: "1px solid #E0DCD6",
+                borderBottom: "1px solid rgba(158,125,90,0.4)",
                 paddingBottom: "2px",
               }}
             >
@@ -148,7 +149,7 @@ export default function PublicNav() {
               display: "block",
               width: "22px",
               height: "1.5px",
-              backgroundColor: "#1A1A1A",
+              backgroundColor: "#FAF2E4",
               transition: "all 0.3s",
               transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
             }}
@@ -158,7 +159,7 @@ export default function PublicNav() {
               display: "block",
               width: "22px",
               height: "1.5px",
-              backgroundColor: "#1A1A1A",
+              backgroundColor: "#FAF2E4",
               transition: "all 0.3s",
               opacity: menuOpen ? 0 : 1,
             }}
@@ -168,7 +169,7 @@ export default function PublicNav() {
               display: "block",
               width: "22px",
               height: "1.5px",
-              backgroundColor: "#1A1A1A",
+              backgroundColor: "#FAF2E4",
               transition: "all 0.3s",
               transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
             }}

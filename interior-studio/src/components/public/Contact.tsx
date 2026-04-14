@@ -32,7 +32,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      style={{ backgroundColor: "#FAF8F5", padding: "6rem 0" }}
+      style={{ backgroundColor: "#FFFFFF", padding: "6rem 0" }}
     >
       <div
         style={{

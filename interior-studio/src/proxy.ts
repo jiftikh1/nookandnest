@@ -6,9 +6,24 @@ export async function proxy(request: NextRequest) {
 
   let response = NextResponse.next({ request });
 
+  const isClientRoute = pathname.startsWith("/client");
+  const isDesignerRoute = pathname.startsWith("/designer");
+
+  // Only hit Supabase for protected routes — keeps public pages fast when auth is unavailable.
+  if (!isClientRoute && !isDesignerRoute) {
+    return response;
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         getAll() {
@@ -27,15 +42,15 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const result = await supabase.auth.getUser();
+    user = result.data.user;
+  } catch {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-  const isClientRoute = pathname.startsWith("/client");
-  const isDesignerRoute = pathname.startsWith("/designer");
-
-  // Redirect unauthenticated users to login
-  if ((isClientRoute || isDesignerRoute) && !user) {
+  if (!user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
