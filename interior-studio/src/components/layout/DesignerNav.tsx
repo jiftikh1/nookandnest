@@ -30,7 +30,7 @@ export default function DesignerNav() {
           className="text-lg font-light tracking-widest"
           style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}
         >
-          Nooks <span style={{ color: "#8B7355" }}>&amp; Nest</span>
+          Nook <span style={{ color: "#8B7355" }}>&amp; Nest</span>
         </Link>
 
         <nav className="flex items-center gap-8">

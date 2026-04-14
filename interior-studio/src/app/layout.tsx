@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nooks & Nest",
+  title: "Nook & Nest",
   description: "Interior design studio",
 };
 

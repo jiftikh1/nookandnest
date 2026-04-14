@@ -190,7 +190,7 @@ export default function Hero() {
                 overflow: "hidden",
                 position: "relative",
                 aspectRatio: "2728 / 3410",
-                border: "12px solid #1A4A35",
+                border: "4px solid #3A2E24",
               }}
             >
               <Image
@@ -203,7 +203,7 @@ export default function Hero() {
             </div>
           ))}
           {/* Bottom full-width landscape image */}
-          <div style={{ gridColumn: "1 / -1", borderRadius: "2px", overflow: "hidden", border: "12px solid #1A4A35" }}>
+          <div style={{ gridColumn: "1 / -1", borderRadius: "2px", overflow: "hidden", border: "4px solid #3A2E24" }}>
             <Image
               src={heroImages[2].src}
               alt={heroImages[2].label}
@@ -221,7 +221,7 @@ export default function Hero() {
               borderRadius: "2px",
               overflow: "hidden",
               position: "relative",
-              border: "2px solid #5C7A4E",
+              border: "4px solid #3A2E24",
             }}
           >
             <Image
@@ -250,7 +250,7 @@ export default function Hero() {
               borderRadius: "2px",
               overflow: "hidden",
               position: "relative",
-              border: "2px solid #8B7355",
+              border: "4px solid #3A2E24",
             }}
           >
             <Image
@@ -278,7 +278,7 @@ export default function Hero() {
               borderRadius: "2px",
               overflow: "hidden",
               position: "relative",
-              border: "2px solid #5C7A4E",
+              border: "4px solid #3A2E24",
             }}
           >
             <Image

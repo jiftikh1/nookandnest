@@ -49,7 +49,7 @@ export default function ClientNav() {
             textDecoration: "none",
           }}
         >
-          Nooks <span style={{ color: "#8B7355" }}>&amp; Nest</span>
+          Nook <span style={{ color: "#8B7355" }}>&amp; Nest</span>
         </Link>
 
         <nav style={{ display: "flex", alignItems: "center", gap: "2rem" }}>

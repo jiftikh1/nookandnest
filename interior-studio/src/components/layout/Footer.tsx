@@ -42,7 +42,7 @@ export default function Footer() {
                 marginBottom: "1rem",
               }}
             >
-              Nooks<span style={{ color: "#8B7355" }}>&</span>Nest
+              Nook<span style={{ color: "#8B7355" }}>&</span>Nest
             </a>
             <p style={{ fontSize: "0.85rem", color: "#7A7A7A", lineHeight: 1.8, maxWidth: "260px" }}>
               Creating thoughtfully designed interiors that balance beauty with function in the San Francisco Bay Area.
@@ -133,7 +133,7 @@ export default function Footer() {
           }}
         >
           <p style={{ fontSize: "0.75rem", color: "#7A7A7A" }}>
-            © 2026 Nooks & Nest. All rights reserved.
+            © 2026 Nook & Nest. All rights reserved.
           </p>
           <Link
             href="/login"
