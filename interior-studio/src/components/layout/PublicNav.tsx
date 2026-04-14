@@ -58,7 +58,7 @@ export default function PublicNav() {
             textDecoration: "none",
           }}
         >
-          Nooks<span style={{ color: "#8B7355" }}>&</span>Nest
+          Nook<span style={{ color: "#8B7355" }}>&</span>Nest
         </a>
 
         {/* Desktop Nav */}

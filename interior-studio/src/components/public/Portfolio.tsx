@@ -108,8 +108,8 @@ export default function Portfolio() {
                   letterSpacing: "0.1em",
                   textTransform: "capitalize",
                   border: "1px solid",
-                  borderColor: activeFilter === f ? "#8B7355" : "#E0DCD6",
-                  backgroundColor: activeFilter === f ? "#8B7355" : "transparent",
+                  borderColor: activeFilter === f ? "#9E7D5A" : "#E0DCD6",
+                  backgroundColor: activeFilter === f ? "#9E7D5A" : "transparent",
                   color: activeFilter === f ? "#FFFFFF" : "#7A7A7A",
                   cursor: "pointer",
                   transition: "all 0.3s",
@@ -145,6 +145,7 @@ export default function Portfolio() {
                   height: "260px",
                   overflow: "hidden",
                   position: "relative",
+                  border: "4px solid #3A2E24",
                 }}
                 onMouseEnter={(e) => {
                   const img = e.currentTarget.querySelector("img") as HTMLElement;

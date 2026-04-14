@@ -56,7 +56,7 @@ export default function LoginPage() {
     <Card className="w-full max-w-md shadow-lg border-0" style={{ backgroundColor: "#FFFFFF" }}>
       <CardHeader className="text-center pb-2 pt-10">
         <p className="text-xs tracking-[0.3em] uppercase mb-3" style={{ color: "#8B7355" }}>
-          Nooks & Nest
+          Nook & Nest
         </p>
         <h1
           className="text-4xl font-light"
