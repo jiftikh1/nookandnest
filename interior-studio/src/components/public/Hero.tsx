@@ -194,8 +194,8 @@ export default function Hero() {
           <div
             style={{
               position: "absolute",
-              bottom: 0,
-              left: 0,
+              bottom: "-8%",
+              left: "-12%",
               width: "46%",
               height: "44%",
               border: "4px solid #3A2E24",
