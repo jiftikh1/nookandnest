@@ -174,7 +174,7 @@ export default function Hero() {
               top: 0,
               right: 0,
               width: "100%",
-              height: "86%",
+              aspectRatio: "4080 / 3072",
               border: "4px solid #3A2E24",
               overflow: "hidden",
               backgroundColor: "#3A2E24",
