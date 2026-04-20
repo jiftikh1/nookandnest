@@ -124,7 +124,7 @@ export default function Hero() {
                 marginBottom: "1.1rem",
               }}
             >
-              Nook &amp; Nest Interiors is a San Francisco / Bay Area studio designing spaces that evoke a mood — calm, nostalgic, lively… A feeling that wraps around you before you&apos;ve set your bag down. Home or commercial, we create spaces that make people stop and say <em>this feels just right</em>.
+              Nook &amp; Nest Interiors is a San Francisco / Bay Area studio designing spaces that evoke a feeling — calm, nostalgic, lively — that wraps around you before you&apos;ve set your bag down. Home or commercial, we create spaces that make people stop and say <em>this feels just right</em>.
             </p>
             <p
               style={{
