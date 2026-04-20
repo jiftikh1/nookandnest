@@ -184,7 +184,7 @@ export default function Hero() {
               src="/hero-main.jpg"
               alt="Designed interior"
               fill
-              style={{ objectFit: "cover", objectPosition: "35% center" }}
+              style={{ objectFit: "contain" }}
               sizes="(max-width: 900px) 100vw, 700px"
               priority
             />
