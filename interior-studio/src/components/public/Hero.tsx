@@ -214,37 +214,6 @@ export default function Hero() {
             />
           </div>
 
-          {/* Catalog-style caption */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-2.25rem",
-              right: 0,
-              textAlign: "right",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.62rem",
-                letterSpacing: "0.35em",
-                textTransform: "uppercase",
-                color: "#9E7D5A",
-                marginBottom: "0.3rem",
-              }}
-            >
-              No. 01
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontStyle: "italic",
-                fontSize: "0.95rem",
-                color: "#3A2E24",
-              }}
-            >
-              The slow kitchen
-            </p>
-          </div>
         </div>
       </div>
 
