@@ -173,7 +173,7 @@ export default function Hero() {
               position: "absolute",
               top: 0,
               right: 0,
-              width: "78%",
+              width: "100%",
               height: "86%",
               border: "4px solid #3A2E24",
               overflow: "hidden",
@@ -184,8 +184,8 @@ export default function Hero() {
               src="/hero-main.jpg"
               alt="Designed interior"
               fill
-              style={{ objectFit: "cover", objectPosition: "20% center" }}
-              sizes="(max-width: 900px) 100vw, 600px"
+              style={{ objectFit: "cover", objectPosition: "center center" }}
+              sizes="(max-width: 900px) 100vw, 700px"
               priority
             />
           </div>
