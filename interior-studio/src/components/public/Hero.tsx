@@ -83,16 +83,16 @@ export default function Hero() {
               marginBottom: "2.75rem",
             }}
           >
-            Spaces that hold
+            You bring the space.
             <br />
-            your{" "}
+            We&apos;ll set the{" "}
             <em
               style={{
                 fontStyle: "italic",
                 color: "#3A2E24",
               }}
             >
-              stillness
+              mood
             </em>
             .
           </h1>
