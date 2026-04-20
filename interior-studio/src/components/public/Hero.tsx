@@ -108,17 +108,23 @@ export default function Hero() {
           >
             <p
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "1.2rem",
-                fontStyle: "italic",
-                color: "#3A2E24",
-                lineHeight: 1.65,
+                fontSize: "0.92rem",
+                color: "#7A6A58",
+                lineHeight: 1.85,
                 marginBottom: "1.1rem",
               }}
             >
-              A home is not a house —
-              <br />
-              it&apos;s the body remembering it is safe.
+              Most spaces look fine. An amazing space <em>hits</em> you — you feel it before you can explain it. That feeling isn&apos;t accidental. It&apos;s intentional. It&apos;s designed.
+            </p>
+            <p
+              style={{
+                fontSize: "0.92rem",
+                color: "#7A6A58",
+                lineHeight: 1.85,
+                marginBottom: "1.1rem",
+              }}
+            >
+              Nook &amp; Nest Interiors is a San Francisco / Bay Area studio designing spaces that evoke a mood — calm, nostalgic, lively… A feeling that wraps around you before you&apos;ve set your bag down. Home or commercial, we create spaces that make people stop and say <em>this feels just right</em>.
             </p>
             <p
               style={{
@@ -127,9 +133,7 @@ export default function Hero() {
                 lineHeight: 1.85,
               }}
             >
-              We design rooms that breathe with you. Grounded in ritual,
-              rooted in material, tuned to the quiet you&apos;ve been trying
-              to name.
+              A quiet nook to retreat to. A nest that finally feels like yours. Let&apos;s build it together.
             </p>
           </div>
 
