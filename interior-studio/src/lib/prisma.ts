@@ -13,6 +13,14 @@ function createPrismaClient() {
   });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// Lazy proxy — defers client instantiation until first use so Next.js build-time
+// route evaluation ("collect page data") does not trigger the pg adapter before
+// runtime env vars are available.
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client =
+      globalForPrisma.prisma ?? (globalForPrisma.prisma = createPrismaClient());
+    const value = Reflect.get(client, prop);
+    return typeof value === "function" ? value.bind(client) : value;
+  },
+});
