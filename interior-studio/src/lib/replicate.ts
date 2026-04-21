@@ -1,6 +1,13 @@
 import Replicate from "replicate";
 
-const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
+let _replicate: Replicate | undefined;
+const replicate: Replicate = new Proxy({} as Replicate, {
+  get(_target, prop) {
+    _replicate ??= new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
+    const value = Reflect.get(_replicate, prop);
+    return typeof value === "function" ? value.bind(_replicate) : value;
+  },
+});
 
 export async function generateRoomRender({
   prompt,

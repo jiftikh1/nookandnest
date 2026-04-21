@@ -1,6 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+let _anthropic: Anthropic | undefined;
+const anthropic: Anthropic = new Proxy({} as Anthropic, {
+  get(_target, prop) {
+    _anthropic ??= new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const value = Reflect.get(_anthropic, prop);
+    return typeof value === "function" ? value.bind(_anthropic) : value;
+  },
+});
 
 const STYLE_PROMPTS: Record<string, string> = {
   Photorealistic: "photorealistic interior photography, 8K DSLR quality, natural and artificial lighting, architectural digest magazine style",

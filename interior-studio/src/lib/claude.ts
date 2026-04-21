@@ -1,6 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const client = new Anthropic();
+let _client: Anthropic | undefined;
+const client: Anthropic = new Proxy({} as Anthropic, {
+  get(_target, prop) {
+    _client ??= new Anthropic();
+    const value = Reflect.get(_client, prop);
+    return typeof value === "function" ? value.bind(_client) : value;
+  },
+});
 
 export async function analyzeRoomAndGeneratePrompt({
   roomPhotoUrl,
