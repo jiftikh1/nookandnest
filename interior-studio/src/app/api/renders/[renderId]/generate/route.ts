@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { prisma } from "@/lib/prisma";
 import { analyzeRoomWithClaude, buildDesignPrompt } from "@/lib/openai";
 import { generateRoomRender } from "@/lib/replicate";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 async function getDesignerId() {
   const supabase = await createServerSupabaseClient();

@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { createClient } from "@supabase/supabase-js";
-
-// Service role client bypasses RLS for storage uploads
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 const ALLOWED_BUCKETS = ["room-photos", "mood-boards", "references", "ideas"];
 
