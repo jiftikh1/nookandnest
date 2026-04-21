@@ -108,32 +108,28 @@ export default function Hero() {
           >
             <p
               style={{
-                fontSize: "0.92rem",
-                color: "#7A6A58",
-                lineHeight: 1.85,
+                fontFamily: "var(--font-serif)",
+                fontSize: "1.2rem",
+                fontStyle: "italic",
+                color: "#3A2E24",
+                lineHeight: 1.65,
                 marginBottom: "1.1rem",
               }}
             >
-              Most spaces look fine. An amazing space <em>hits</em> you — you feel it before you can explain it. That feeling isn&apos;t accidental. It&apos;s intentional. It&apos;s designed.
+              A home is not a house —
+              <br />
+              it&apos;s the body remembering it is safe.
             </p>
             <p
               style={{
                 fontSize: "0.92rem",
                 color: "#7A6A58",
                 lineHeight: 1.85,
-                marginBottom: "1.1rem",
               }}
             >
-              Nook &amp; Nest Interiors is a San Francisco / Bay Area studio designing spaces that evoke a feeling — calm, nostalgic, lively — that wraps around you before you&apos;ve set your bag down. Home or commercial, we create spaces that make people stop and say <em>this feels just right</em>.
-            </p>
-            <p
-              style={{
-                fontSize: "0.92rem",
-                color: "#7A6A58",
-                lineHeight: 1.85,
-              }}
-            >
-              A quiet nook to retreat to. A nest that finally feels like yours. Let&apos;s build it together.
+              We design rooms that breathe with you. Grounded in ritual,
+              rooted in material, tuned to the quiet you&apos;ve been trying
+              to name.
             </p>
           </div>
 
@@ -173,8 +169,8 @@ export default function Hero() {
               position: "absolute",
               top: 0,
               right: 0,
-              width: "100%",
-              aspectRatio: "4080 / 3072",
+              width: "78%",
+              height: "86%",
               border: "4px solid #3A2E24",
               overflow: "hidden",
               backgroundColor: "#3A2E24",
@@ -184,8 +180,8 @@ export default function Hero() {
               src="/hero-main.jpg"
               alt="Designed interior"
               fill
-              style={{ objectFit: "contain" }}
-              sizes="(max-width: 900px) 100vw, 700px"
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 900px) 100vw, 600px"
               priority
             />
           </div>
@@ -194,8 +190,8 @@ export default function Hero() {
           <div
             style={{
               position: "absolute",
-              bottom: "-8%",
-              left: "-12%",
+              bottom: 0,
+              left: 0,
               width: "46%",
               height: "44%",
               border: "4px solid #3A2E24",
@@ -214,6 +210,37 @@ export default function Hero() {
             />
           </div>
 
+          {/* Catalog-style caption */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-2.25rem",
+              right: 0,
+              textAlign: "right",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.35em",
+                textTransform: "uppercase",
+                color: "#9E7D5A",
+                marginBottom: "0.3rem",
+              }}
+            >
+              No. 01
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontStyle: "italic",
+                fontSize: "0.95rem",
+                color: "#3A2E24",
+              }}
+            >
+              The slow kitchen
+            </p>
+          </div>
         </div>
       </div>
 
