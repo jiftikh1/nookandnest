@@ -16,7 +16,12 @@ export default function NewProjectPage() {
     description: "",
     clientName: "",
     clientEmail: "",
+    revisionsPerSpace: "2",
+    contractValue: "",
+    currency: "USD",
+    targetDate: "",
   });
+  const [spaces, setSpaces] = useState<string[]>([""]);
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -30,7 +35,12 @@ export default function NewProjectPage() {
     const res = await fetch("/api/projects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({
+        ...form,
+        spaces: spaces.map((s) => s.trim()).filter(Boolean),
+        contractedSpaces: spaces.filter((s) => s.trim()).length || null,
+        targetDate: form.targetDate || null,
+      }),
     });
 
     if (res.ok) {
@@ -107,6 +117,58 @@ export default function NewProjectPage() {
               style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }}
             />
           </div>
+        </div>
+
+        <div className="p-8 border rounded-sm space-y-5" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>
+          <div>
+            <h2 className="text-sm tracking-widest uppercase" style={{ color: "#8B7355" }}>Spaces</h2>
+            <p className="text-xs mt-1" style={{ color: "#7A7A7A" }}>The spaces in scope for this contract. You can add more later.</p>
+          </div>
+          <div className="space-y-2">
+            {spaces.map((space, i) => (
+              <div key={i} className="flex gap-2">
+                <Input
+                  value={space}
+                  onChange={(e) => setSpaces((prev) => prev.map((s, j) => (j === i ? e.target.value : s)))}
+                  placeholder={i === 0 ? "e.g. Living Room" : "Another space"}
+                  style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }}
+                />
+                {spaces.length > 1 && (
+                  <button type="button" onClick={() => setSpaces((prev) => prev.filter((_, j) => j !== i))}
+                    className="text-xs tracking-widest uppercase px-3" style={{ color: "#7A7A7A" }}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={() => setSpaces((prev) => [...prev, ""])}
+            className="text-xs tracking-widest uppercase" style={{ color: "#8B7355" }}>
+            + Add Space
+          </button>
+        </div>
+
+        <div className="p-8 border rounded-sm space-y-5" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>
+          <h2 className="text-sm tracking-widest uppercase" style={{ color: "#8B7355" }}>Contract</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="space-y-1.5">
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>REVISIONS PER SPACE</Label>
+              <Input type="number" min={0} value={form.revisionsPerSpace} onChange={(e) => update("revisionsPerSpace", e.target.value)} style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }} />
+            </div>
+            <div className="space-y-1.5">
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>TARGET COMPLETION</Label>
+              <Input type="date" value={form.targetDate} onChange={(e) => update("targetDate", e.target.value)} style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }} />
+            </div>
+            <div className="space-y-1.5">
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>CONTRACT VALUE (OPTIONAL)</Label>
+              <Input type="number" min={0} step="0.01" value={form.contractValue} onChange={(e) => update("contractValue", e.target.value)} placeholder="0.00" style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }} />
+            </div>
+            <div className="space-y-1.5">
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>CURRENCY</Label>
+              <Input value={form.currency} maxLength={3} onChange={(e) => update("currency", e.target.value)} placeholder="USD" style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }} />
+            </div>
+          </div>
+          <p className="text-xs" style={{ color: "#7A7A7A" }}>Payment milestones can be added from the project&apos;s Contract page.</p>
         </div>
 
         {error && <p className="text-sm text-red-600">{error}</p>}

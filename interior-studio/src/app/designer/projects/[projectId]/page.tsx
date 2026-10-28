@@ -35,6 +35,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
   const tabs = [
     { label: "Photos", href: `/designer/projects/${projectId}/photos` },
     { label: "Spaces", href: `/designer/projects/${projectId}/rooms`, count: project.rooms.length },
+    { label: "Contract", href: `/designer/projects/${projectId}/contract` },
     { label: "Preview", href: `/designer/projects/${projectId}/preview` },
     { label: "Publish", href: `/designer/projects/${projectId}/publish` },
   ];
@@ -64,7 +65,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
         </span>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
         {tabs.map((tab) => (
           <Link
             key={tab.href}

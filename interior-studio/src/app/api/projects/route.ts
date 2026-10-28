@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { parseContractFields } from "@/lib/contract";
 
 async function getDesignerId() {
   const supabase = await createServerSupabaseClient();
@@ -51,8 +52,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const contract = parseContractFields(body);
+    if (contract.error) return NextResponse.json({ error: contract.error }, { status: 400 });
+
+    // Optional list of space names to create up front
+    const spaceNames: string[] = Array.isArray(body.spaces)
+      ? body.spaces.map((s: unknown) => String(s).trim()).filter(Boolean)
+      : [];
+
     const project = await prisma.project.create({
-      data: { name, description, clientId: client.id, designerId },
+      data: {
+        name,
+        description,
+        clientId: client.id,
+        designerId,
+        ...contract.data,
+        rooms: { create: spaceNames.map((spaceName, order) => ({ name: spaceName, order })) },
+      },
     });
 
     return NextResponse.json(project, { status: 201 });

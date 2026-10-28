@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { parseContractFields } from "@/lib/contract";
 
 async function getDesignerId() {
   const supabase = await createServerSupabaseClient();
@@ -55,6 +56,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ pr
     if (body.clientMessage !== undefined) updateData.clientMessage = body.clientMessage;
     if (body.coverImageUrl !== undefined) updateData.coverImageUrl = body.coverImageUrl;
     if (body.status === "PUBLISHED") updateData.publishedAt = new Date();
+
+    const contract = parseContractFields(body);
+    if (contract.error) return NextResponse.json({ error: contract.error }, { status: 400 });
+    Object.assign(updateData, contract.data);
 
     const project = await prisma.project.updateMany({
       where: { id: projectId, designerId },
