@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import type { SpaceStatus } from "@prisma/client";
 import SpaceStatusBadge from "@/components/designer/SpaceStatusBadge";
-import { revisionsUsed, revisionsAllowed, isOverdue } from "@/lib/spaces";
+import { revisionsUsed, revisionsAllowed, isOverdue, formatDateOnly } from "@/lib/spaces";
 
 interface Room {
   id: string;
@@ -156,7 +156,7 @@ export default function RoomsPage() {
                   {room.targetDate && (
                     <span style={{ color: isOverdue(room) ? "#C62828" : undefined }}>
                       {isOverdue(room) ? "Overdue · " : "Due "}
-                      {new Date(room.targetDate).toLocaleDateString(undefined, { day: "numeric", month: "short" })}
+                      {formatDateOnly(room.targetDate, { day: "numeric", month: "short" })}
                     </span>
                   )}
                   <span>{room.renders.length} renders</span>

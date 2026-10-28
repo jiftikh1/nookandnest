@@ -20,7 +20,8 @@ export function revisionsAllowed(room: { revisionsIncluded: number | null }, pro
 }
 
 export function isOverdue(room: { targetDate: Date | string | null; status: SpaceStatus }) {
-  return !!room.targetDate && room.status !== "COMPLETED" && new Date(room.targetDate) < new Date();
+  // Overdue only once the whole target day has passed
+  return !!room.targetDate && room.status !== "COMPLETED" && new Date(room.targetDate).getTime() + 86_400_000 < Date.now();
 }
 
 // Spaces completed vs spaces in scope (contracted count, or the spaces added if larger/unset).
@@ -28,4 +29,9 @@ export function projectProgress(project: { contractedSpaces: number | null }, ro
   const completed = rooms.filter((r) => r.status === "COMPLETED").length;
   const total = Math.max(project.contractedSpaces ?? 0, rooms.length);
   return { completed, total, pct: total === 0 ? 0 : Math.round((completed / total) * 100) };
+}
+
+// Target/due dates are stored as UTC midnight; format in UTC so they don't shift a day in local time.
+export function formatDateOnly(d: Date | string, opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short", year: "numeric" }) {
+  return new Date(d).toLocaleDateString(undefined, { ...opts, timeZone: "UTC" });
 }

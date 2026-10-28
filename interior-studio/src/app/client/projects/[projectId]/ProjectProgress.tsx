@@ -1,7 +1,7 @@
 import type { SpaceStatus, MilestoneStatus } from "@prisma/client";
 import SpaceStatusBadge from "@/components/designer/SpaceStatusBadge";
 import ProgressBar from "@/components/ProgressBar";
-import { revisionsUsed, revisionsAllowed, isOverdue, projectProgress } from "@/lib/spaces";
+import { revisionsUsed, revisionsAllowed, isOverdue, projectProgress, formatDateOnly } from "@/lib/spaces";
 import { MILESTONE_STATUS_META, formatMoney } from "@/lib/contract";
 
 interface Props {
@@ -53,7 +53,7 @@ export default function ProjectProgress({ project, rooms, milestones }: Props) {
             </p>
           </div>
           <div className="text-sm text-right" style={{ color: "#7A7A7A" }}>
-            {project.targetDate && <p>Target completion {fmtDate(project.targetDate)}</p>}
+            {project.targetDate && <p>Target completion {formatDateOnly(project.targetDate)}</p>}
             <p>{project.revisionsPerSpace} revision{project.revisionsPerSpace !== 1 ? "s" : ""} included per space</p>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function ProjectProgress({ project, rooms, milestones }: Props) {
                     <p style={{ color: "#4A7B5B" }}>Completed {fmtDate(room.completedAt)}</p>
                   ) : room.targetDate ? (
                     <p style={{ color: overdue ? "#C62828" : undefined }}>
-                      {overdue ? "Past target date · " : "Target "}{fmtDate(room.targetDate)}
+                      {overdue ? "Past target date · " : "Target "}{formatDateOnly(room.targetDate)}
                     </p>
                   ) : null}
                 </div>
@@ -157,7 +157,7 @@ export default function ProjectProgress({ project, rooms, milestones }: Props) {
                           {m.room && <p className="text-xs" style={{ color: "#7A7A7A" }}>{m.room.name}</p>}
                         </td>
                         <td className="py-3 pr-4 text-right whitespace-nowrap" style={{ color: "#1A1A1A" }}>{formatMoney(m.amount, project.currency)}</td>
-                        <td className="py-3 pr-4 whitespace-nowrap" style={{ color: "#4A4A4A" }}>{m.dueDate ? fmtDate(m.dueDate) : "—"}</td>
+                        <td className="py-3 pr-4 whitespace-nowrap" style={{ color: "#4A4A4A" }}>{m.dueDate ? formatDateOnly(m.dueDate) : "—"}</td>
                         <td className="py-3">
                           <span className="text-xs tracking-widest uppercase px-2 py-0.5 rounded-full whitespace-nowrap" style={{ backgroundColor: meta.bg, color: meta.text }}>
                             {meta.label}{m.status === "PAID" && m.paidAt && ` · ${fmtDate(m.paidAt)}`}

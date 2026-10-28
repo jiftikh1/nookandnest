@@ -64,9 +64,11 @@ export default function RoundResponse({ roundId, revisionsUsed, revisionsAllowed
     <div className="space-y-3">
       {requesting ? (
         <>
-          <p className="text-sm" style={{ color: "#4A4A4A" }}>
-            This will be revision {nextRevision} of {revisionsAllowed} included in your agreement.
-          </p>
+          {!isExtra && (
+            <p className="text-sm" style={{ color: "#4A4A4A" }}>
+              This will be revision {nextRevision} of {revisionsAllowed} included in your agreement.
+            </p>
+          )}
           {isExtra && (
             <div className="p-3 border-l-2 text-sm" style={{ borderColor: "#B8860B", backgroundColor: "#FFF8E7", color: "#4A4A4A" }}>
               You&apos;ve used all {revisionsAllowed} included revision{revisionsAllowed !== 1 ? "s" : ""} for this space.
