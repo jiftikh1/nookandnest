@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import ProgressBar from "@/components/ProgressBar";
+import { projectProgress } from "@/lib/spaces";
 
 async function getClient() {
   const supabase = await createServerSupabaseClient();
@@ -35,7 +37,13 @@ export default async function ClientDashboard() {
     include: {
       designer: { select: { name: true } },
       _count: { select: { rooms: true } },
-      rooms: { select: { _count: { select: { rounds: true } } } },
+      rooms: {
+        select: {
+          status: true,
+          _count: { select: { rounds: true } },
+          rounds: { where: { status: "PENDING" }, select: { id: true } },
+        },
+      },
     },
     orderBy: { updatedAt: "desc" },
   });
@@ -68,18 +76,26 @@ export default async function ClientDashboard() {
               <div className="grid gap-4">
                 {published.map((project) => {
                   const colors = STATUS_COLORS[project.status] ?? STATUS_COLORS.DRAFT;
+                  const progress = projectProgress(project, project.rooms);
+                  const awaiting = project.rooms.filter((r) => r.rounds.length > 0 && r.status !== "COMPLETED").length;
                   return (
                     <Link
                       key={project.id}
                       href={`/client/projects/${project.id}`}
-                      className="flex items-center justify-between p-6 border rounded-sm hover:border-[#8B7355] transition-colors"
+                      className="flex flex-wrap items-center justify-between gap-4 p-6 border rounded-sm hover:border-[#8B7355] transition-colors"
                       style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}
                     >
-                      <div>
+                      <div className="flex-1 min-w-[14rem]">
                         <h3 className="font-light text-xl mb-1" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>{project.name}</h3>
                         <p className="text-sm" style={{ color: "#7A7A7A" }}>
-                          By {project.designer.name} · {project._count.rooms} space{project._count.rooms !== 1 ? "s" : ""}
+                          By {project.designer.name} · {progress.completed} of {progress.total} space{progress.total !== 1 ? "s" : ""} complete
                         </p>
+                        {progress.total > 0 && <div className="mt-3 max-w-sm"><ProgressBar pct={progress.pct} /></div>}
+                        {awaiting > 0 && (
+                          <p className="text-xs mt-2" style={{ color: "#8B7355" }}>
+                            {awaiting} space{awaiting !== 1 ? "s" : ""} waiting for your review
+                          </p>
+                        )}
                       </div>
                       <div className="flex items-center gap-4">
                         <span className="text-xs tracking-widest uppercase px-3 py-1 rounded-sm" style={{ backgroundColor: colors.bg, color: colors.text }}>

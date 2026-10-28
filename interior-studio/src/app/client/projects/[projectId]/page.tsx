@@ -6,6 +6,7 @@ import Image from "next/image";
 import ClientComments from "./ClientComments";
 import ClientRenderGallery from "./ClientRenderGallery";
 import RoundResponse from "./RoundResponse";
+import ProjectProgress from "./ProjectProgress";
 import SpaceStatusBadge from "@/components/designer/SpaceStatusBadge";
 import { revisionsUsed, revisionsAllowed } from "@/lib/spaces";
 
@@ -46,6 +47,10 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
           rounds: { orderBy: { number: "desc" } },
         },
       },
+      milestones: {
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        include: { room: { select: { name: true } } },
+      },
       comments: {
         include: { user: { select: { name: true, role: true } } },
         orderBy: { createdAt: "asc" },
@@ -81,6 +86,8 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
           </div>
         )}
       </div>
+
+      <ProjectProgress project={project} rooms={project.rooms} milestones={project.milestones} />
 
       {/* Design Ideas CTA */}
       <div className="mb-10 p-6 border rounded-sm flex items-center justify-between" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>

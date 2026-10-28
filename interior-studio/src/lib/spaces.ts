@@ -22,3 +22,10 @@ export function revisionsAllowed(room: { revisionsIncluded: number | null }, pro
 export function isOverdue(room: { targetDate: Date | string | null; status: SpaceStatus }) {
   return !!room.targetDate && room.status !== "COMPLETED" && new Date(room.targetDate) < new Date();
 }
+
+// Spaces completed vs spaces in scope (contracted count, or the spaces added if larger/unset).
+export function projectProgress(project: { contractedSpaces: number | null }, rooms: { status: SpaceStatus }[]) {
+  const completed = rooms.filter((r) => r.status === "COMPLETED").length;
+  const total = Math.max(project.contractedSpaces ?? 0, rooms.length);
+  return { completed, total, pct: total === 0 ? 0 : Math.round((completed / total) * 100) };
+}
