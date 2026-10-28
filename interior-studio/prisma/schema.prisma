@@ -35,6 +35,26 @@ enum ClientStatus {
   REJECTED
 }
 
+enum SpaceStatus {
+  NOT_STARTED
+  IN_DESIGN
+  IN_REVIEW
+  CHANGES_REQUESTED
+  COMPLETED
+}
+
+enum RoundStatus {
+  PENDING
+  APPROVED
+  CHANGES_REQUESTED
+}
+
+enum MilestoneStatus {
+  UPCOMING
+  INVOICED
+  PAID
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -60,32 +80,81 @@ model Project {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  // Contract terms
+  contractedSpaces  Int?
+  revisionsPerSpace Int       @default(2)
+  contractValue     Float?
+  currency          String    @default("USD")
+  targetDate        DateTime?
+
   clientId   String
   client     User   @relation("ClientProjects", fields: [clientId], references: [id])
   designerId String
   designer   User   @relation("DesignerProjects", fields: [designerId], references: [id])
 
-  rooms    Room[]
-  updates  ProjectUpdate[]
-  comments Comment[]
-  ideas    DesignIdea[]
+  rooms      Room[]
+  updates    ProjectUpdate[]
+  comments   Comment[]
+  ideas      DesignIdea[]
+  milestones PaymentMilestone[]
 }
 
 model Room {
-  id               String   @id @default(cuid())
+  id               String      @id @default(cuid())
   name             String
-  order            Int      @default(0)
+  order            Int         @default(0)
   originalPhotoUrl String?
-  photoUrls        String[] @default([])
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  photoUrls        String[]    @default([])
+  status           SpaceStatus @default(NOT_STARTED)
+  revisionsIncluded Int?       // overrides project.revisionsPerSpace when set
+  targetDate       DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
   projectId  String
-  project    Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project    Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
   renders    RoomRender[]
   moodBoards MoodBoard[]
   products   Product[]
   comments   Comment[]
+  rounds     DesignRound[]
+  milestones PaymentMilestone[]
+}
+
+// One "send for review" of a space. Revisions used = rounds with CHANGES_REQUESTED.
+model DesignRound {
+  id             String      @id @default(cuid())
+  number         Int
+  designerNote   String?
+  renderIds      String[]    @default([]) // snapshot of renders sent in this round
+  photoUrls      String[]    @default([]) // snapshot of photos sent in this round
+  status         RoundStatus @default(PENDING)
+  clientFeedback String?
+  sentAt         DateTime    @default(now())
+  respondedAt    DateTime?
+
+  roomId String
+  room   Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, number])
+}
+
+model PaymentMilestone {
+  id        String          @id @default(cuid())
+  label     String
+  amount    Float
+  dueDate   DateTime?
+  status    MilestoneStatus @default(UPCOMING)
+  paidAt    DateTime?
+  order     Int             @default(0)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  roomId    String?
+  room      Room?   @relation(fields: [roomId], references: [id], onDelete: SetNull)
 }
 
 model MoodBoard {
