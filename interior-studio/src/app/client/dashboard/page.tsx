@@ -35,11 +35,16 @@ export default async function ClientDashboard() {
     include: {
       designer: { select: { name: true } },
       _count: { select: { rooms: true } },
+      rooms: { select: { _count: { select: { rounds: true } } } },
     },
     orderBy: { updatedAt: "desc" },
   });
 
-  const published = projects.filter((p) => p.status === "PUBLISHED" || p.status === "COMPLETED");
+  // A project is viewable once published, or as soon as any space has been sent for review
+  const isViewable = (p: (typeof projects)[number]) =>
+    p.status === "PUBLISHED" || p.status === "COMPLETED" || p.rooms.some((r) => r._count.rounds > 0);
+  const published = projects.filter(isViewable);
+  const inProgress = projects.filter((p) => !isViewable(p) && (p.status === "DRAFT" || p.status === "IN_REVIEW" || p.status === "ACTIVE"));
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
@@ -73,7 +78,7 @@ export default async function ClientDashboard() {
                       <div>
                         <h3 className="font-light text-xl mb-1" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>{project.name}</h3>
                         <p className="text-sm" style={{ color: "#7A7A7A" }}>
-                          By {project.designer.name} · {project._count.rooms} room{project._count.rooms !== 1 ? "s" : ""}
+                          By {project.designer.name} · {project._count.rooms} space{project._count.rooms !== 1 ? "s" : ""}
                         </p>
                       </div>
                       <div className="flex items-center gap-4">
@@ -89,11 +94,11 @@ export default async function ClientDashboard() {
             </div>
           )}
 
-          {projects.filter((p) => p.status === "DRAFT" || p.status === "IN_REVIEW" || p.status === "ACTIVE").length > 0 && (
+          {inProgress.length > 0 && (
             <div>
               <h2 className="text-xl font-light mb-4" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>In Progress</h2>
               <div className="grid gap-4">
-                {projects.filter((p) => p.status === "DRAFT" || p.status === "IN_REVIEW" || p.status === "ACTIVE").map((project) => {
+                {inProgress.map((project) => {
                   const colors = STATUS_COLORS[project.status] ?? STATUS_COLORS.DRAFT;
                   return (
                     <div key={project.id} className="flex items-center justify-between p-6 border rounded-sm" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF", opacity: 0.7 }}>

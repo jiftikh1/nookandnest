@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import ClientComments from "./ClientComments";
 import ClientRenderGallery from "./ClientRenderGallery";
+import RoundResponse from "./RoundResponse";
+import SpaceStatusBadge from "@/components/designer/SpaceStatusBadge";
+import { revisionsUsed, revisionsAllowed } from "@/lib/spaces";
 
 async function getClient() {
   const supabase = await createServerSupabaseClient();
@@ -23,7 +26,11 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
     where: {
       id: projectId,
       clientId: client.id,
-      status: { in: ["PUBLISHED", "COMPLETED"] },
+      // Visible once published, or as soon as any space has been sent for review
+      OR: [
+        { status: { in: ["PUBLISHED", "COMPLETED"] } },
+        { rooms: { some: { rounds: { some: {} } } } },
+      ],
     },
     include: {
       designer: { select: { name: true } },
@@ -36,6 +43,7 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
           },
           products: { where: { isVisible: true }, orderBy: { createdAt: "asc" } },
           renders: { where: { isPublished: true }, orderBy: { createdAt: "desc" } },
+          rounds: { orderBy: { number: "desc" } },
         },
       },
       comments: {
@@ -86,11 +94,93 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Rooms */}
-      {project.rooms.map((room) => (
-        <div key={room.id} className="mb-16 pb-16 border-b last:border-0" style={{ borderColor: "#E0DCD6" }}>
-          <h2 className="text-3xl font-light mb-8" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>
-            {room.name}
-          </h2>
+      {project.rooms.map((room) => {
+        const used = revisionsUsed(room.rounds);
+        const allowed = revisionsAllowed(room, project);
+        const renderUrlById = new Map(room.renders.map((r) => [r.id, r.generatedImageUrl]));
+        const roundImages = (round: (typeof room.rounds)[number]) => [
+          ...round.renderIds.map((id) => renderUrlById.get(id)).filter((u): u is string => !!u),
+          ...round.photoUrls,
+        ];
+        const pending = room.rounds.find((r) => r.status === "PENDING");
+        const pastRounds = room.rounds.filter((r) => r.status !== "PENDING");
+
+        return (
+        <div key={room.id} id={`space-${room.id}`} className="mb-16 pb-16 border-b last:border-0" style={{ borderColor: "#E0DCD6" }}>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+            <h2 className="text-3xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>
+              {room.name}
+            </h2>
+            <div className="flex items-center gap-4">
+              <span className="text-xs" style={{ color: used > allowed ? "#C62828" : "#7A7A7A" }}>
+                {used} of {allowed} revisions used
+              </span>
+              <SpaceStatusBadge status={room.status} />
+            </div>
+          </div>
+
+          {/* Design round awaiting the client's response */}
+          {pending && room.status !== "COMPLETED" && (
+            <div className="mb-10 p-6 border rounded-sm" style={{ borderColor: "#8B7355", backgroundColor: "#FBF9F7" }}>
+              <p className="text-xs tracking-widest uppercase mb-1" style={{ color: "#8B7355" }}>Ready for your review</p>
+              <p className="text-lg font-light mb-4" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>
+                Design round {pending.number}
+              </p>
+              {pending.designerNote && (
+                <p className="text-sm mb-4 leading-relaxed" style={{ color: "#4A4A4A" }}>{pending.designerNote}</p>
+              )}
+              {roundImages(pending).length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                  {roundImages(pending).map((url) => (
+                    <a key={url} href={url} target="_blank" rel="noopener noreferrer"
+                      className="relative h-48 rounded-sm overflow-hidden border block" style={{ borderColor: "#E0DCD6" }}>
+                      <Image src={url} alt={`${room.name} round ${pending.number}`} fill className="object-cover" unoptimized />
+                    </a>
+                  ))}
+                </div>
+              )}
+              <RoundResponse roundId={pending.id} revisionsUsed={used} revisionsAllowed={allowed} />
+            </div>
+          )}
+
+          {/* Past rounds */}
+          {pastRounds.length > 0 && (
+            <details className="mb-10 border rounded-sm" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>
+              <summary className="cursor-pointer px-5 py-3 text-xs tracking-widest uppercase" style={{ color: "#7A7A7A" }}>
+                Review history · {pastRounds.length} round{pastRounds.length !== 1 ? "s" : ""}
+              </summary>
+              <div className="px-5 pb-5 space-y-5">
+                {pastRounds.map((round) => (
+                  <div key={round.id} className="pt-4 border-t" style={{ borderColor: "#F0EDE8" }}>
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                      <p className="text-sm font-medium" style={{ color: "#1A1A1A" }}>
+                        Round {round.number}
+                        <span className="font-normal ml-2" style={{ color: "#7A7A7A" }}>
+                          {round.sentAt.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
+                        </span>
+                      </p>
+                      <span className="text-xs tracking-widest uppercase" style={{ color: round.status === "APPROVED" ? "#4A7B5B" : "#C62828" }}>
+                        {round.status === "APPROVED" ? "Approved" : "Changes requested"}
+                      </span>
+                    </div>
+                    {roundImages(round).length > 0 && (
+                      <div className="flex gap-2 mb-2 overflow-x-auto">
+                        {roundImages(round).map((url) => (
+                          <div key={url} className="relative w-20 h-20 shrink-0 rounded-sm overflow-hidden border" style={{ borderColor: "#E0DCD6" }}>
+                            <Image src={url} alt="" fill className="object-cover" unoptimized />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {round.designerNote && <p className="text-sm mb-1" style={{ color: "#4A4A4A" }}>{round.designerNote}</p>}
+                    {round.clientFeedback && (
+                      <p className="text-sm" style={{ color: "#7A7A7A" }}>Your feedback: {round.clientFeedback}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
 
           {/* Photo gallery */}
           {room.photoUrls.length > 0 && (
@@ -169,7 +259,8 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
             </div>
           )}
         </div>
-      ))}
+        );
+      })}
 
       {/* Comments */}
       <div className="mt-10">
