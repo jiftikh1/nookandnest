@@ -60,6 +60,8 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
 
   if (!project) notFound();
 
+  const isPublished = project.status === "PUBLISHED" || project.status === "COMPLETED";
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
       <div className="mb-4">
@@ -189,6 +191,8 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
             </details>
           )}
 
+          {/* Full design content is shown once the project is published; drafts show review rounds only */}
+          {isPublished && (<>
           {/* Photo gallery */}
           {room.photoUrls.length > 0 && (
             <div className="mb-8">
@@ -265,6 +269,7 @@ export default async function ClientProjectPage({ params }: { params: Promise<{ 
               </div>
             </div>
           )}
+          </>)}
         </div>
         );
       })}

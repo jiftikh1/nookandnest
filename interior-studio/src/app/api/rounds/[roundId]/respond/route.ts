@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { notifyRoundResponse } from "@/lib/email";
 
 // POST /api/rounds/[roundId]/respond — client approves a design round or requests changes
 export async function POST(
@@ -54,6 +55,7 @@ export async function POST(
     });
 
     if (!updated) return NextResponse.json({ error: "This round has already been answered" }, { status: 400 });
+    after(() => notifyRoundResponse(roundId));
     return NextResponse.json(updated);
   } catch (err) {
     console.error(err);

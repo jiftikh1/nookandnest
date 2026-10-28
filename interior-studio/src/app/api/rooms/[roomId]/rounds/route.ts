@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { notifyRoundSent } from "@/lib/email";
 
 async function getDesignerId() {
   const supabase = await createServerSupabaseClient();
@@ -58,6 +59,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ roo
       }),
     ]);
 
+    after(() => notifyRoundSent(round.id));
     return NextResponse.json(round, { status: 201 });
   } catch (err) {
     console.error(err);
