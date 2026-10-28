@@ -30,13 +30,14 @@ export default async function RoomPage({ params }: { params: Promise<{ projectId
     { label: "Mood Boards", href: `${base}/mood-boards` },
     { label: "Items", href: `${base}/items` },
     { label: "Renders", href: `${base}/renders` },
+    { label: "Review", href: `${base}/review` },
   ];
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
       <div className="mb-2">
         <Link href={`/designer/projects/${projectId}/rooms`} className="text-xs tracking-widest uppercase" style={{ color: "#8B7355" }}>
-          ← Rooms
+          ← Spaces
         </Link>
       </div>
 

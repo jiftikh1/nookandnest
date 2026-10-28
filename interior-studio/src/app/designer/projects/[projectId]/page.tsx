@@ -34,7 +34,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ projec
 
   const tabs = [
     { label: "Photos", href: `/designer/projects/${projectId}/photos` },
-    { label: "Rooms", href: `/designer/projects/${projectId}/rooms`, count: project.rooms.length },
+    { label: "Spaces", href: `/designer/projects/${projectId}/rooms`, count: project.rooms.length },
     { label: "Preview", href: `/designer/projects/${projectId}/preview` },
     { label: "Publish", href: `/designer/projects/${projectId}/publish` },
   ];

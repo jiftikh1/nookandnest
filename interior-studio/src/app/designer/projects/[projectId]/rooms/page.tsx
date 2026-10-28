@@ -7,12 +7,25 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import type { SpaceStatus } from "@prisma/client";
+import SpaceStatusBadge from "@/components/designer/SpaceStatusBadge";
+import { revisionsUsed, revisionsAllowed, isOverdue } from "@/lib/spaces";
 
-interface Room { id: string; name: string; originalPhotoUrl: string | null; renders: { id: string }[]; }
+interface Room {
+  id: string;
+  name: string;
+  originalPhotoUrl: string | null;
+  status: SpaceStatus;
+  targetDate: string | null;
+  revisionsIncluded: number | null;
+  renders: { id: string }[];
+  rounds: { status: string }[];
+}
 
 export default function RoomsPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [revisionsPerSpace, setRevisionsPerSpace] = useState(2);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [roomName, setRoomName] = useState("");
@@ -24,7 +37,11 @@ export default function RoomsPage() {
   useEffect(() => {
     fetch(`/api/projects/${projectId}`)
       .then((r) => r.json())
-      .then((data) => { setRooms(data.rooms || []); setLoading(false); });
+      .then((data) => {
+        setRooms(data.rooms || []);
+        if (data.revisionsPerSpace !== undefined) setRevisionsPerSpace(data.revisionsPerSpace);
+        setLoading(false);
+      });
   }, [projectId]);
 
   async function handleCreate(e: React.FormEvent) {
@@ -50,7 +67,7 @@ export default function RoomsPage() {
       body: JSON.stringify({ name: roomName, originalPhotoUrl: photoUrl }),
     });
     const room = await res.json();
-    setRooms((prev) => [...prev, { ...room, renders: [] }]);
+    setRooms((prev) => [...prev, { ...room, renders: [], rounds: [] }]);
     setRoomName("");
     setPendingFile(null);
     setShowForm(false);
@@ -65,24 +82,24 @@ export default function RoomsPage() {
         </Link>
       </div>
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-4xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>Rooms</h1>
+        <h1 className="text-4xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>Spaces</h1>
         <button onClick={() => setShowForm(true)} className="text-xs tracking-widest uppercase px-5 py-2.5"
           style={{ backgroundColor: "#8B7355", color: "#FFFFFF" }}>
-          + Add Room
+          + Add Space
         </button>
       </div>
 
       {showForm && (
         <form onSubmit={handleCreate} className="mb-8 p-8 border rounded-sm" style={{ borderColor: "#E0DCD6", backgroundColor: "#FFFFFF" }}>
-          <h2 className="text-sm tracking-widest uppercase mb-6" style={{ color: "#8B7355" }}>New Room</h2>
+          <h2 className="text-sm tracking-widest uppercase mb-6" style={{ color: "#8B7355" }}>New Space</h2>
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>ROOM NAME</Label>
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>SPACE NAME</Label>
               <Input value={roomName} onChange={(e) => setRoomName(e.target.value)} placeholder="e.g. Living Room"
                 required style={{ borderColor: "#E0DCD6", backgroundColor: "#FAF8F5" }} />
             </div>
             <div className="space-y-1.5">
-              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>ROOM PHOTO (OPTIONAL)</Label>
+              <Label style={{ color: "#4A4A4A", fontSize: "0.7rem", letterSpacing: "0.08em" }}>SPACE PHOTO (OPTIONAL)</Label>
               <input ref={fileRef} type="file" accept="image/*" className="hidden"
                 onChange={(e) => setPendingFile(e.target.files?.[0] || null)} />
               <div className="flex items-center gap-3">
@@ -98,7 +115,7 @@ export default function RoomsPage() {
           <div className="flex gap-3 mt-6">
             <Button type="submit" disabled={saving || uploading}
               style={{ backgroundColor: "#8B7355", color: "#FFFFFF", border: "none" }}>
-              {uploading ? "Uploading..." : saving ? "Creating..." : "Create Room"}
+              {uploading ? "Uploading..." : saving ? "Creating..." : "Create Space"}
             </Button>
             <Button type="button" variant="ghost" onClick={() => setShowForm(false)} style={{ color: "#7A7A7A" }}>
               Cancel
@@ -109,8 +126,8 @@ export default function RoomsPage() {
 
       {loading ? <p style={{ color: "#7A7A7A" }}>Loading...</p> : rooms.length === 0 ? (
         <div className="text-center py-24 border rounded-sm" style={{ borderColor: "#E0DCD6" }}>
-          <p className="text-xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#4A4A4A" }}>No rooms yet</p>
-          <p className="text-sm mt-1" style={{ color: "#7A7A7A" }}>Add rooms to start generating AI design renders.</p>
+          <p className="text-xl font-light" style={{ fontFamily: "var(--font-serif)", color: "#4A4A4A" }}>No spaces yet</p>
+          <p className="text-sm mt-1" style={{ color: "#7A7A7A" }}>Add the spaces in this project to start designing.</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
@@ -128,8 +145,22 @@ export default function RoomsPage() {
                 )}
               </div>
               <div className="p-5">
-                <p className="font-light text-lg" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>{room.name}</p>
-                <p className="text-xs mt-1" style={{ color: "#7A7A7A" }}>{room.renders.length} renders</p>
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <p className="font-light text-lg" style={{ fontFamily: "var(--font-serif)", color: "#1A1A1A" }}>{room.name}</p>
+                  <SpaceStatusBadge status={room.status} />
+                </div>
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ color: "#7A7A7A" }}>
+                  <span style={{ color: revisionsUsed(room.rounds) > revisionsAllowed(room, { revisionsPerSpace }) ? "#C62828" : undefined }}>
+                    {revisionsUsed(room.rounds)} / {revisionsAllowed(room, { revisionsPerSpace })} revisions
+                  </span>
+                  {room.targetDate && (
+                    <span style={{ color: isOverdue(room) ? "#C62828" : undefined }}>
+                      {isOverdue(room) ? "Overdue · " : "Due "}
+                      {new Date(room.targetDate).toLocaleDateString(undefined, { day: "numeric", month: "short" })}
+                    </span>
+                  )}
+                  <span>{room.renders.length} renders</span>
+                </div>
               </div>
             </Link>
           ))}

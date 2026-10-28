@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
+import { SPACE_STATUSES } from "@/lib/spaces";
+import type { SpaceStatus } from "@prisma/client";
 
 async function getDesignerId() {
   const supabase = await createServerSupabaseClient();
@@ -28,9 +30,28 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ ro
       name?: string;
       photoUrls?: string[];
       originalPhotoUrl?: string | null;
+      status?: SpaceStatus;
+      completedAt?: Date | null;
+      targetDate?: Date | null;
+      revisionsIncluded?: number | null;
     } = {};
 
     if (body.name !== undefined) updateData.name = body.name;
+
+    // Designer status override (e.g. start design, mark completed, reopen)
+    if (body.status !== undefined) {
+      if (!SPACE_STATUSES.includes(body.status)) return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+      updateData.status = body.status;
+      updateData.completedAt = body.status === "COMPLETED" ? new Date() : null;
+    }
+
+    if (body.targetDate !== undefined) updateData.targetDate = body.targetDate ? new Date(body.targetDate) : null;
+
+    if (body.revisionsIncluded !== undefined) {
+      const n = body.revisionsIncluded === null || body.revisionsIncluded === "" ? null : Number(body.revisionsIncluded);
+      if (n !== null && (!Number.isInteger(n) || n < 0)) return NextResponse.json({ error: "Invalid revisions" }, { status: 400 });
+      updateData.revisionsIncluded = n;
+    }
 
     // Add a photo
     if (body.addPhoto) {

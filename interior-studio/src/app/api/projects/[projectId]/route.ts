@@ -26,6 +26,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ pro
             renders: { orderBy: { createdAt: "desc" } },
             moodBoards: { include: { items: { orderBy: { order: "asc" } } }, orderBy: { order: "asc" } },
             products: { orderBy: { createdAt: "asc" } },
+            rounds: { select: { status: true } },
           },
         },
         updates: { orderBy: { createdAt: "desc" } },
